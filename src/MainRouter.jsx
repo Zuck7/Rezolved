@@ -8,8 +8,8 @@ import Services from "./components/Services";
 import ListInventory from "./components/inventory/ListInventory";
 import AddInventory from "./components/inventory/AddInventory";
 import EditInventory from "./components/inventory/EditInventory";
-// import Signin from "./components/auth/Signin";
-// import Signup from "./components/auth/Signup";
+import SignIn from "./components/auth/SignIn";
+import SignUp from "./components/auth/SignUp";
 
 function MainRouter() {
     return (
@@ -18,13 +18,13 @@ function MainRouter() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
-                <Route path="/projects" element={<Projects />} />
+                {/* <Route path="/projects" element={<Projects />} />
                 <Route path="/services" element={<Services />} />
-                {/* <Route path="/users/signin" element={<Signin />} />
-                <Route path="/users/signup" element={<Signup />} /> */}
                 <Route path="/inventory/list" element={<ListInventory />} />
                 <Route path="/inventory/add" element={<AddInventory />} />
-                <Route path="/inventory/edit/:id" element={<EditInventory />} />
+                <Route path="/inventory/edit/:id" element={<EditInventory />} /> */}
+                <Route path="/users/signin" element={<SignIn />} />
+                <Route path="/users/signup" element={<SignUp />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </div>
