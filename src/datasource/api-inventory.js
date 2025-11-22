@@ -1,84 +1,89 @@
-let apiURL = import.meta.env.VITE_APP_APIURL
-import { getToken } from "../components/auth/auth-helper"
+// src/datasource/api-inventory.js
 
-const list = async () => {
+let apiURL = import.meta.env.VITE_APP_APIURL;
+
+// 1. LIST tickets
+export const listTickets = async (showClosed = false) => {
     try {
-        let response = await fetch(apiURL + '/api/inventory/', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+        let response = await fetch(
+            `${apiURL}/api/tickets?showClosed=${showClosed ? "true" : "false"}`,
+            {
+                method: "GET",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                }
             }
-        })
-        return await response.json()
+        );
+        return await response.json();
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
-}
+};
 
-const remove = async (id) => {
+// 2. CREATE ticket
+export const createTicket = async (ticket) => {
     try {
-        let response = await fetch(apiURL + '/api/inventory/' + id, {
-            method: 'DELETE',
+        let response = await fetch(`${apiURL}/api/tickets`, {
+            method: "POST",
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+ getToken()
-            }
-        })
-        return await response.json()
-    } catch (err) {
-        console.log(err)
-    }
-}
-
-const create = async (product) => {
-    try {
-        let response = await fetch(apiURL + '/api/inventory/', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+ getToken()
+                "Accept": "application/json",
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(product)
-        })
-        return await response.json()
+            body: JSON.stringify(ticket)
+        });
+        return await response.json();
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
-}
+};
 
-const read = async (id) => {
+// 3. READ single ticket
+export const readTicket = async (id) => {
     try {
-        let response = await fetch(apiURL + '/api/inventory/' + id, {
-            method: 'GET',
+        let response = await fetch(`${apiURL}/api/tickets/${id}`, {
+            method: "GET",
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                "Accept": "application/json",
+                "Content-Type": "application/json"
             }
-        })
-        return await response.json()
+        });
+        return await response.json();
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
-}
+};
 
-const update = async (product, id) => {
+// 4. UPDATE ticket (priority + description only)
+export const updateTicket = async (id, updates) => {
     try {
-        let response = await fetch(apiURL + '/api/inventory/' + id, {
-            method: 'PUT',
+        let response = await fetch(`${apiURL}/api/tickets/${id}`, {
+            method: "PUT",
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+ getToken()
+                "Accept": "application/json",
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify(product)
-        })
-        return await response.json()
+            body: JSON.stringify(updates)
+        });
+        return await response.json();
     } catch (err) {
-        console.log(err)
+        console.log(err);
     }
-}
+};
 
-export { list, remove, create, read, update }
+// 5. CANCEL ticket
+export const cancelTicket = async (id, username) => {
+    try {
+        let response = await fetch(`${apiURL}/api/tickets/${id}/cancel`, {
+            method: "PUT",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username })
+        });
+        return await response.json();
+    } catch (err) {
+        console.log(err);
+    }
+};

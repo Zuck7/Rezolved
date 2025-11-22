@@ -1,124 +1,86 @@
+// src/components/inventory/InventoryForm.jsx
 import React from "react";
-import { useNavigate } from 'react-router-dom';
 
-const InventoryForm = ({ product = {}, handleChange, handleSubmit }) => {
-    const navigate = useNavigate();
+const InventoryForm = ({
+  values,
+  onChange,
+  onSubmit,
+  submitLabel,
+  isEdit = false,
+}) => {
+  return (
+    <form className="inventory-form" onSubmit={onSubmit}>
 
-    return (
-        <form onSubmit={handleSubmit} className="form card p-3">
-            <input type="hidden" name="id" value={product.id || ""} />
+      {/* READ-ONLY FIELDS WHEN EDITING */}
+      {isEdit && (
+        <>
+          <label>
+            Ticket Number
+            <input type="text" value={values.ticketNumber || ""} disabled />
+          </label>
 
-            <div className="form-group">
-                <label htmlFor="itemTextField">Item Name</label>
-                <input
-                    id="itemTextField"
-                    name="item"
-                    className="form-control"
-                    placeholder="Enter the Item Name"
-                    value={product.item || ""}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
+          <label>
+            Customer Name
+            <input type="text" value={values.customerName || ""} disabled />
+          </label>
 
-            <div className="form-group">
-                <label htmlFor="QtyTextField">Quantity</label>
-                <input
-                    id="QtyTextField"
-                    name="qty"
-                    type="number"
-                    className="form-control"
-                    placeholder="00"
-                    value={product.qty ?? 0}
-                    onChange={handleChange}
-                />
-            </div>
+          <label>
+            Customer Email
+            <input type="email" value={values.customerEmail || ""} disabled />
+          </label>
+        </>
+      )}
 
-            <div className="form-group">
-                <label htmlFor="statusTextField">Status</label>
-                <input
-                    id="statusTextField"
-                    name="status"
-                    className="form-control"
-                    placeholder="Enter a status"
-                    value={product.status || ""}
-                    onChange={handleChange}
-                />
-            </div>
+      {/* EDITABLE FIELDS WHEN CREATING */}
+      {!isEdit && (
+        <>
+          <label>
+            Customer Name
+            <input
+              type="text"
+              value={values.customerName}
+              onChange={onChange("customerName")}
+              required
+            />
+          </label>
 
-            <div className="card">
-                <div className="card-header">Size</div>
-                <div className="card-body">
-                    <div className="form-group">
-                        <label htmlFor="hightTextField">Height</label>
-                        <input
-                            id="hightTextField"
-                            name="size_h"
-                            type="number"
-                            step="0.01"
-                            className="form-control"
-                            placeholder="0.00"
-                            value={product.size_h ?? ""}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+          <label>
+            Customer Email
+            <input
+              type="email"
+              value={values.customerEmail}
+              onChange={onChange("customerEmail")}
+              required
+            />
+          </label>
+        </>
+      )}
 
-                    <div className="form-group">
-                        <label htmlFor="widthTextField">Width</label>
-                        <input
-                            id="widthTextField"
-                            name="size_w"
-                            type="number"
-                            step="0.01"
-                            className="form-control"
-                            placeholder="0.00"
-                            value={product.size_w ?? ""}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+      <label>
+        Priority
+        <select value={values.priority} onChange={onChange("priority")} required>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+          <option value="Urgent">Urgent</option>
+        </select>
+      </label>
 
-                    <div className="form-group">
-                        <label htmlFor="uomTextField">UOM</label>
-                        <input
-                            id="uomTextField"
-                            name="size_uom"
-                            className="form-control"
-                            placeholder="cm"
-                            value={product.size_uom || ""}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                </div>
-            </div>
+      <label>
+        Description
+        <textarea
+          rows={4}
+          value={values.description}
+          onChange={onChange("description")}
+          required
+        />
+      </label>
 
-            <div className="form-group">
-                <label htmlFor="tagTextArea">
-                    Tags <span className="text-muted">[use , to separate tags]</span>
-                </label>
-                <textarea
-                    id="tagTextArea"
-                    name="tags"
-                    className="form-control"
-                    placeholder="Enter the tags of the item"
-                    value={product.tags || ""}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            &nbsp;
-            <button className="btn btn-primary" type="submit">
-                <i className="fas fa-edit"></i> Submit
-            </button>
-            &nbsp;
-            <button className="btn btn-warning" type="button" onClick={() => navigate(-1)} >
-                <i className="fas fa-undo"></i>
-                Cancel
-            </button>
-        </form>
-    );
+      <button type="submit" className="btn primary">
+        {submitLabel}
+      </button>
+    </form>
+  );
 };
 
 export default InventoryForm;

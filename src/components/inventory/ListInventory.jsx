@@ -1,72 +1,102 @@
-import React, { useEffect, useState } from 'react';
-import { list } from '../../datasource/api-inventory';
-import ListItemInventory from './ListItemInventory';
-import { Link } from 'react-router-dom';
+// src/components/inventory/ListInventory.jsx
+import React, { useEffect, useState } from "react";
+import { listTickets, cancelTicket } from "../../datasource/api-inventory";
+import ListItemInventory from "./ListItemInventory";
+import { getUsername } from "../auth/auth-helper";
 
 const ListInventory = () => {
-    const [inventoryList, setInventoryList] = useState([]);
-    let [isLoading, setIsLoading] = useState(true);
+  const [tickets, setTickets] = useState([]);
+  const [showClosed, setShowClosed] = useState(false);
+  const [error, setError] = useState("");
 
-    const loadInventory = () => {
-        list().then((data) => {
-            if (data) {
-                setInventoryList(data || []);
+  const loadTickets = async (includeClosed) => {
+    try {
+      const data = await listTickets(includeClosed);
 
-                setIsLoading(false);
-            }
-        }).catch(err => {
-            alert(err.message);
-            console.log(err);
-        });
+      if (Array.isArray(data)) {
+        setTickets(data);
+        setError("");
+      } else {
+        setError(data.error || data.message || "Unable to load tickets.");
+      }
+    } catch {
+      setError("Unable to load tickets.");
     }
+  };
 
-    // When the component loads.
-    useEffect(() => {
-        loadInventory();
-    }, []);
+  useEffect(() => {
+    loadTickets(showClosed);
+  }, [showClosed]);
 
-    // When a item is removed.
-    const handleRemove = () => {
-        loadInventory();
+  const handleCancel = async (id) => {
+    if (!window.confirm("Cancel this ticket?")) return;
+
+    try {
+      const username = getUsername && getUsername();
+      const data = await cancelTicket(id, username || "unknown");
+
+      if (data.error || (data.success === false && data.message)) {
+        setError(data.error || data.message);
+      } else {
+        loadTickets(showClosed);
+      }
+    } catch {
+      setError("Unable to cancel ticket.");
     }
+  };
 
-    return (
-        <>
-            <div>
-                <Link to="/inventory/add" className="btn btn-primary align-self-end" role="button">
-                    <i className="fas fa-plus-circle"></i>
-                    Add a new Item
-                </Link>
-            </div>
-            <div className="table-responsive" >
-                {isLoading && <div>Loading...</div>}
-                {!isLoading &&
-                    <table className="table table-bordered table-striped table-hover">
-                        <thead>
-                            {/* -- Header Row-- */}
-                            <tr>
-                                <th className="text-center">Item</th>
-                                <th className="text-center">Qty</th>
-                                <th className="text-center">Status</th>
-                                <th>Size</th>
-                                <th className="text-center">Tags</th>
-                                <th className="text-center" colSpan="3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* -- Repeatable Template Row -- */}
-                            {inventoryList.map(product =>
-                                <ListItemInventory
-                                    key={product.id}
-                                    product={product}
-                                    onRemoved={handleRemove}
-                                />
-                            )}
-                        </tbody>
-                    </table>}
-            </div>
-        </>
-    )
-}
+  return (
+    <section>
+      <h2>Ticket Dashboard</h2>
+
+      <div className="toolbar">
+        <label>
+          <input
+            type="checkbox"
+            checked={showClosed}
+            onChange={(e) => setShowClosed(e.target.checked)}
+          />
+          Show closed tickets
+        </label>
+      </div>
+
+      {error && <p className="error">{error}</p>}
+
+      <div className="table-wrapper">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Ticket #</th>
+              <th>Customer</th>
+              <th>Email</th>
+              <th>Priority</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {tickets.length === 0 ? (
+              <tr>
+                <td colSpan="7" style={{ textAlign: "center" }}>
+                  No tickets found.
+                </td>
+              </tr>
+            ) : (
+              tickets.map((ticket) => (
+                <ListItemInventory
+                  key={ticket._id}
+                  ticket={ticket}
+                  onCancel={handleCancel}
+                />
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+};
 
 export default ListInventory;

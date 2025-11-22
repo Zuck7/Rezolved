@@ -1,43 +1,85 @@
-import { Link, useLocation } from 'react-router-dom';
-import image_logo from "../assets/image_logo.png"
-import { isAuthenticated, getUsername, clearJWT } from './auth/auth-helper';
+import { Link, useNavigate } from 'react-router-dom'; 
+import image_logo from "../assets/image_logo.png";
+import auth from './auth/auth-helper';
 
 function Layout() {
-
-    const location = useLocation();
+    const navigate = useNavigate();
+    const jwt = auth.isAuthenticated();
+    const user = auth.getUser(); // { id, username }
 
     const signoutClick = () => {
-        clearJWT();
-    }
+        auth.clear(() => navigate("/signin"));
+    };
 
     return (
         <>
-            <h1>My Portfolio</h1>
+            <h1>LeadGlobe Help Desk</h1>
+
             <nav className="navbar">
-                <img src={image_logo} alt="Logo" className='logo' />
+                <img src={image_logo} alt="Logo" className="logo" />
+
+                {/* PUBLIC LINKS */}
                 <Link to="/">
                     <i className="fas fa-home"></i> Home
                 </Link>
+
                 <Link to="/about">
                     <i className="fa-solid fa-address-card"></i> About
                 </Link>
+
                 <Link to="/projects">
                     <i className="fas fa-project-diagram"></i> Projects
                 </Link>
-                <Link to="/services">Services</Link>
-                <Link to="/contact">Contact</Link>
-                <Link to="/inventory/list">
-                    <i className="fa-regular fa-rectangle-list"></i>Inventory List
+
+                <Link to="/services">
+                    Services
                 </Link>
-                {!isAuthenticated() &&
-                    <Link to="/users/signin">
-                        <i className="fa-solid fa-right-to-bracket"></i> Signin
-                    </Link>}
-                {isAuthenticated() &&
+
+                {/* ONLY SHOW WHEN LOGGED IN */}
+                {jwt && (
+                    <>
+                        {/* TICKETS */}
+                        <Link to="/tickets">
+                            Tickets
+                        </Link>
+
+                        <Link to="/tickets/new">
+                            New Ticket
+                        </Link>
+
+                        {/* EVENTS */}
+                        <Link to="/events">
+                            Events
+                        </Link>
+
+                        <Link to="/events/new">
+                            New Event
+                        </Link>
+                    </>
+                )}
+
+                {/* AUTH LINKS */}
+                {!jwt && (
+                    <>
+                        <Link to="/signin">
+                            <i className="fa-solid fa-right-to-bracket"></i> Signin
+                        </Link>
+
+                        <Link to="/signup">
+                            <i className="fa-solid fa-user-plus"></i> Signup
+                        </Link>
+                    </>
+                )}
+
+                {/* LOGGED-IN USER + SIGN OUT */}
+                {jwt && (
                     <Link to="/" onClick={signoutClick}>
-                        <i className="fa-solid fa-right-from-bracket"></i> Sign-out ({getUsername()})
-                    </Link>}
+                        <i className="fa-solid fa-right-from-bracket"></i>
+                        Sign-out ({user?.username})
+                    </Link>
+                )}
             </nav>
+
             <br />
             <hr />
         </>
