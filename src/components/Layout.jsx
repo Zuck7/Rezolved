@@ -29,14 +29,14 @@ function Layout() {
                 <Link to="/inventory/list">
                     <i className="fa-regular fa-rectangle-list"></i>Inventory List
                 </Link>
-                {!isAuthenticated() &&
+                {/* {!isAuthenticated() &&
                     <Link to="/users/signin">
                         <i className="fa-solid fa-right-to-bracket"></i> Signin
                     </Link>}
                 {isAuthenticated() &&
                     <Link to="/" onClick={signoutClick}>
                         <i className="fa-solid fa-right-from-bracket"></i> Sign-out ({getUsername()})
-                    </Link>}
+                    </Link>} */}
             </nav>
             <br />
             <hr />
