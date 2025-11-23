@@ -41,28 +41,16 @@ const Signup = () => {
         <div className="container" style={{ paddingTop: 10 }}>
             <div className="row">
                 <div className="offset-md-3 col-md-6">
-                    <h1>Add a new user</h1>
+                    <h1>Register to LeadGlobe</h1>
                     <p className="flash"><span>{errorMsg}</span></p>
                     <form onSubmit={handleSubmit} className="form card p-3">
                         <div className="form-group">
-                            <label htmlFor="firstNameTextField">First Name</label>
+                            <label htmlFor="usernameTextField">Username</label>
                             <input type="text" className="form-control"
-                                id="firstNameTextField"
-                                placeholder="Enter first name"
-                                name="firstName"
-                                value={user.firstName || ''}
-                                onChange={handleChange}
-                                required>
-                            </input>
-                        </div>
-                        <br />
-                        <div className="form-group">
-                            <label htmlFor="lastNameTextField">Last Name</label>
-                            <input type="text" className="form-control"
-                                id="lastNameTextField"
-                                placeholder="Enter last name"
-                                name="lastName"
-                                value={user.lastName || ''}
+                                id="usernameTextField"
+                                placeholder="Enter username"
+                                name="username"
+                                value={user.username || ''}
                                 onChange={handleChange}>
                             </input>
                         </div>
@@ -107,15 +95,21 @@ const Signup = () => {
                                 placeholder="Confirm password">
                             </input>
                         </div>
+                        <br />
+                        <div className="form-group">
+                            <label><input type="radio" name="user_type" value="user" required/> User</label>
+                            &nbsp;&nbsp;&nbsp;
+                            <label><input type="radio" name="user_type" value="admin" /> Admin</label>
+                        </div>
                         &nbsp;
                         <button className="btn btn-primary" type="submit">
                             <i className="fas fa-edit"></i>
-                            Submit
+                            Register
                         </button>
                         &nbsp; &nbsp;
                         <Link href="#" to="/users/signin" className="btn btn-warning">
                             <i className="fas fa-undo"></i>
-                            Cancel
+                            Return to Sign-In
                         </Link>
 
                     </form>
