@@ -1,17 +1,16 @@
 import { Routes, Route } from "react-router-dom";
-import Projects from "./components/projects";
+// import Projects from "./components/projects";
 import Home from "./components/Home";
 import About from "./components/About";
 import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
-import Services from "./components/Services";
-import ListInventory from "./components/inventory/ListInventory";
-import AddInventory from "./components/inventory/AddInventory";
-import EditInventory from "./components/inventory/EditInventory";
+// import Services from "./components/Services";
+// import ListInventory from "./components/inventory/ListInventory";
+// import AddInventory from "./components/inventory/AddInventory";
+// import EditInventory from "./components/inventory/EditInventory";
 import SignIn from "./components/auth/Signin";
 import SignUp from "./components/auth/Signup";
-import SignIn from "./components/auth/SignIn";
-import SignUp from "./components/auth/SignUp";
+
 
 function MainRouter() {
     return (

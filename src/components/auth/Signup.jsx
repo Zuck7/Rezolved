@@ -56,17 +56,6 @@ const Signup = () => {
                         </div>
                         <br />
                         <div className="form-group">
-                            <label htmlFor="usernameTextField">username</label>
-                            <input type="text" className="form-control"
-                                id="usernameTextField"
-                                placeholder="Enter username"
-                                name="username"
-                                value={user.username || ''}
-                                onChange={handleChange}>
-                            </input>
-                        </div>
-                        <br />
-                        <div className="form-group">
                             <label htmlFor="emailTextField">Email</label>
                             <input type="text" className="form-control"
                                 id="emailTextField"
