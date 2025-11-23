@@ -62,6 +62,32 @@ const Signup = () => {
                     <form onSubmit={handleSubmit} className="form card p-3">
                         <div className="form-group">
                             <label htmlFor="firstNameTextField">First Name</label>
+<<<<<<< Updated upstream
+=======
+                            <input type="text" className="form-control"
+                                id="firstNameTextField"
+                                placeholder="Enter first name"
+                                name="firstName"
+                                value={user.firstName || ''}
+                                onChange={handleChange}
+                                required>
+                            </input>
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <label htmlFor="lastNameTextField">Last Name</label>
+                            <input type="text" className="form-control"
+                                id="lastNameTextField"
+                                placeholder="Enter last name"
+                                name="lastName"
+                                value={user.lastName || ''}
+                                onChange={handleChange}>
+                            </input>
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <label htmlFor="usernameTextField">username</label>
+>>>>>>> Stashed changes
                             <input type="text" className="form-control"
                                 id="firstNameTextField"
                                 placeholder="Enter first name"
