@@ -1,49 +1,30 @@
-import { remove } from "../../datasource/api-inventory";
+// src/components/inventory/ListItemInventory.jsx
+import React from "react";
 import { Link } from "react-router-dom";
 
-const ListItemInventory = ({ product, onRemoved }) => {
+const ListItemInventory = ({ ticket, onCancel }) => {
+  return (
+    <tr>
+      <td>{ticket.ticketNumber}</td>
+      <td>{ticket.customerName}</td>
+      <td>{ticket.customerEmail}</td>
+      <td>{ticket.priority}</td>
+      <td>{ticket.status}</td>
+      <td>{ticket.createdAt ? new Date(ticket.createdAt).toLocaleString() : ""}</td>
 
-    const handleRemove = (id) => {
-        if (window.confirm('Are you sure you want to delete this item?')) {
-            remove(id)
-                .then(data => {
-                    if (data && data.success) {
-                        if (typeof onRemoved === 'function') onRemoved(id);
-                    }
-                })
-                .catch(err => {
-                    alert(err.message);
-                    console.log(err);
-                });
-        }
-    };
+      <td>
+        <Link className="btn small" to={`/tickets/edit/${ticket._id}`}>
+          Edit
+        </Link>{" "}
 
-    return (
-        <tr >
-            <td className="text-center"> {product.item || ''} </td>
-            <td className="text-center"> {product.qty || ''} </td>
-            <td className="text-center"> {product.status || ''} </td>
-            <td>
-                Hight: {product.size.h || ''}<br />
-                Width: {product.size.w || ''}<br />
-                UOM: {product.size.uom || ''}<br />
-            </td>
-            <td className="text-center">{product.tags.toString() || ''}</td>
-            <td className="text-center">
-                <Link className="btn bg-primary btn-primary btn-sm" to={'/inventory/edit/' + product.id}>
-                    <i className="fas fa-pencil-alt"></i>
-                </Link>
-            </td>
-            <td className="text-center">
-                <button
-                    className="btn bg-danger btn-danger btn-sm"
-                    onClick={() => handleRemove(product.id)}>
-                    <i className="fas fa-trash-alt"></i>
-                </button>
-            </td>
-        </tr>
-    );
-
-}
+        {ticket.status !== "CANCELLED" && ticket.status !== "CLOSED" && (
+          <button className="btn small danger" onClick={() => onCancel(ticket._id)}>
+            Cancel
+          </button>
+        )}
+      </td>
+    </tr>
+  );
+};
 
 export default ListItemInventory;

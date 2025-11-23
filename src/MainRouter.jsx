@@ -15,12 +15,78 @@ import SignUp from "./components/auth/Signup";
 function MainRouter() {
     return (
         <div>
+            {/* Layout wraps all pages */}
             <Layout />
+
             <Routes>
+
+                {/* PUBLIC ROUTES */}
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 {/* <Route path="/projects" element={<Projects />} />
                 <Route path="/services" element={<Services />} />
+
+                {/* AUTH ROUTES */}
+                <Route path="/signin" element={<Signin />} />
+                <Route path="/signup" element={<Signup />} />
+
+                {/* TICKET ROUTES */}
+                <Route
+                    path="/tickets"
+                    element={
+                        <PrivateRoute>
+                            <ListInventory />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/tickets/new"
+                    element={
+                        <PrivateRoute>
+                            <AddInventory />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/tickets/edit/:id"
+                    element={
+                        <PrivateRoute>
+                            <EditInventory />
+                        </PrivateRoute>
+                    }
+                />
+
+                {/* EVENT ROUTES */}
+                <Route
+                    path="/events"
+                    element={
+                        <PrivateRoute>
+                            <ListEvents />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/events/new"
+                    element={
+                        <PrivateRoute>
+                            <AddEvent />
+                        </PrivateRoute>
+                    }
+                />
+
+                <Route
+                    path="/events/edit/:id"
+                    element={
+                        <PrivateRoute>
+                            <EditEvent />
+                        </PrivateRoute>
+                    }
+                />
+
+                {/* 404 ROUTE */}
                 <Route path="/inventory/list" element={<ListInventory />} />
                 <Route path="/inventory/add" element={<AddInventory />} />
                 <Route path="/inventory/edit/:id" element={<EditInventory />} /> */}
@@ -29,7 +95,7 @@ function MainRouter() {
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </div>
-    )
+    );
 }
 
 export default MainRouter;
