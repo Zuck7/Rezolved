@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { list } from '../../datasource/api-inventory';
-import ListItemInventory from './ListItemInventory';
+import { list } from '../../datasource/api-tickets';
+import ListTicketItem from './ListTicketItem';
 import { Link } from 'react-router-dom';
 
-const ListInventory = () => {
-    const [inventoryList, setInventoryList] = useState([]);
+const ListTickets = () => {
+    const [ticketList, setTicketList] = useState([]);
     let [isLoading, setIsLoading] = useState(true);
 
-    const loadInventory = () => {
+    const loadTicket = () => {
         list().then((data) => {
             if (data) {
-                setInventoryList(data || []);
+                setTicketList(data || []);
 
                 setIsLoading(false);
             }
@@ -22,20 +22,20 @@ const ListInventory = () => {
 
     // When the component loads.
     useEffect(() => {
-        loadInventory();
+        loadTicket();
     }, []);
 
     // When a item is removed.
     const handleRemove = () => {
-        loadInventory();
+        loadTicket();
     }
 
     return (
         <>
             <div>
-                <Link to="/inventory/add" className="btn btn-primary align-self-end" role="button">
+                <Link to="/ticket/add" className="btn btn-primary align-self-end" role="button">
                     <i className="fas fa-plus-circle"></i>
-                    Add a new Item
+                    Create a Ticket
                 </Link>
             </div>
             <div className="table-responsive" >
@@ -55,10 +55,10 @@ const ListInventory = () => {
                         </thead>
                         <tbody>
                             {/* -- Repeatable Template Row -- */}
-                            {inventoryList.map(product =>
-                                <ListItemInventory
-                                    key={product.id}
-                                    product={product}
+                            {ticketList.map(ticket =>
+                                <ListTicketItem
+                                    key={ticket.id}
+                                    ticket={ticket}
                                     onRemoved={handleRemove}
                                 />
                             )}
@@ -69,4 +69,4 @@ const ListInventory = () => {
     )
 }
 
-export default ListInventory;
+export default ListTickets;

@@ -5,7 +5,7 @@ import UserModel from "../../datasource/userModel.js";
 import { auth } from "../../firebase.js";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
-const Signup = () => {
+const SignUp = () => {
     let navigate = useNavigate();
 
     const [errorMsg, setErrorMsg] = useState('')
@@ -131,4 +131,4 @@ const Signup = () => {
     );
 }
 
-export default Signup;
+export default SignUp;

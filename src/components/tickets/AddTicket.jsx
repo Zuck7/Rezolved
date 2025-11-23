@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import InventoryModel from "../../datasource/inventoryModel";
-import { create } from "../../datasource/api-inventory";
-import InventoryForm from "./InventoryForm";
+import TicketModel from "../../datasource/TicketModel";
+import { create } from "../../datasource/api-tickets";
+import TicketForm from "./TicketForm";
 
-const AddInventory = () => {
+const AddTicket = () => {
     const navigate = useNavigate();
-    const [product, setProduct] = useState(new InventoryModel());
+    const [product, setProduct] = useState(new TicketModel());
     const [errorMsg, setErrorMsg] = useState('')
 
     const handleChange = (event) => {
@@ -35,7 +35,7 @@ const AddInventory = () => {
             .then(data => {
                 if (data && data.id) {
                     alert(`Item added with the id ${data.id}`);
-                    navigate("/inventory/list");
+                    navigate("/ticket/list");
                 } else {
                     setErrorMsg(data.message);
                 }
@@ -51,9 +51,9 @@ const AddInventory = () => {
         <div className="container" style={{ paddingTop: 10 }}>
             <div className="row">
                 <div className="offset-md-3 col-md-6">
-                    <h1>Add Inventory Item</h1>
+                    <h1>Add Ticket Item</h1>
                     <p className="flash"><span>{errorMsg}</span></p>
-                    <InventoryForm
+                    <TicketForm
                         product={product}
                         handleChange={handleChange}
                         handleSubmit={handleSubmit}
@@ -64,4 +64,4 @@ const AddInventory = () => {
     );
 }
 
-export default AddInventory;
+export default AddTicket;

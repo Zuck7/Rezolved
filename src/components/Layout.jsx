@@ -18,17 +18,10 @@ function Layout() {
                 <Link to="/">
                     <i className="fas fa-home"></i> Home
                 </Link>
-                <Link to="/about">
-                    <i className="fa-solid fa-address-card"></i> About
-                </Link>
-                <Link to="/projects">
-                    <i className="fas fa-project-diagram"></i> Projects
-                </Link>
-                <Link to="/services">Services</Link>
-                <Link to="/contact">Contact</Link>
-                <Link to="/inventory/list">
+                {!isAuthenticated() &&
+                <Link to="/ticket/list">
                     <i className="fa-regular fa-rectangle-list"></i>Inventory List
-                </Link>
+                </Link>}
                 {!isAuthenticated() &&
                     <Link to="/users/signin">
                         <i className="fa-solid fa-right-to-bracket"></i> Signin

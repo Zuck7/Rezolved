@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import InventoryModel from "../../datasource/inventoryModel";
-import { update, read } from "../../datasource/api-inventory";
-import InventoryForm from "./InventoryForm";
+import TicketModel from "../../datasource/TicketModel";
+import { update, read } from "../../datasource/api-tickets";
+import TicketForm from "./TicketForm";
 
-const EditInventory = () => {
+const EditTicket = () => {
     const navigate = useNavigate();
     const { id } = useParams();
-    const [product, setProduct] = useState(new InventoryModel());
+    const [ticket, setTicket] = useState(new TicketModel());
     const [errorMsg, setErrorMsg] = useState('')
 
     // When the component loads.
     useEffect(() => {
         read(id).then(data => {
             if (data) {
-                setProduct(new InventoryModel(
+                setTicket(new TicketModel(
                     data.id,
-                    data.item,
-                    data.qty,
-                    data.tags,
-                    data.status,
-                    data.size.h,
-                    data.size.w,
-                    data.size.uom
+                    data.name,
+                    data.priority,
+                    data.desc,
+                    data.user
                 ));
             } else {
                 setErrorMsg(data.message);
@@ -36,30 +33,25 @@ const EditInventory = () => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setProduct(formData => ({ ...formData, [name]: value }));
+        setTicket(formData => ({ ...formData, [name]: value }));
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Submitting product: ", product);
+        console.log("Submitting ticket: ", ticket);
 
-        const submitProduct = {
-            id: product.id,
-            item: product.item,
-            qty: product.qty,
-            tags: product.tags.toString(),
-            status: product.status,
-            size: {
-                h: product.size_h,
-                w: product.size_w,
-                uom: product.size_uom
-            }
+        const submitTicket = {
+            id: ticket.id,
+            name: ticket.name,
+            priority: ticket.priority,
+            desc: ticket.desc,
+            user: ticket.user
         };
 
-        update(submitProduct, id)
+        update(submitTicket, id)
             .then(data => {
                 if (data && data.success) {
                     alert(data.message);
-                    navigate("/inventory/list");
+                    navigate("/ticket/list");
                 } else {
                     setErrorMsg(data.message);
                 }
@@ -75,10 +67,10 @@ const EditInventory = () => {
         <div className="container" style={{ paddingTop: 10 }}>
             <div className="row">
                 <div className="offset-md-3 col-md-6">
-                    <h1>Edit Inventory Item</h1>
+                    <h1>Edit Ticket Item</h1>
                     <p className="flash"><span>{errorMsg}</span></p>
-                    <InventoryForm
-                        product={product}
+                    <TicketForm
+                        ticket={ticket}
                         handleChange={handleChange}
                         handleSubmit={handleSubmit}
                     />
@@ -88,4 +80,4 @@ const EditInventory = () => {
     );
 }
 
-export default EditInventory;
+export default EditTicket;
