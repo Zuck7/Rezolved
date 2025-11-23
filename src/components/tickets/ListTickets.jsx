@@ -45,11 +45,9 @@ const ListTickets = () => {
                         <thead>
                             {/* -- Header Row-- */}
                             <tr>
-                                <th className="text-center">Item</th>
-                                <th className="text-center">Qty</th>
-                                <th className="text-center">Status</th>
-                                <th>Size</th>
-                                <th className="text-center">Tags</th>
+                                <th className="text-center">Name</th>
+                                <th className="text-center">Priority</th>
+                                <th className="text-center">Desc</th>
                                 <th className="text-center" colSpan="3">Actions</th>
                             </tr>
                         </thead>

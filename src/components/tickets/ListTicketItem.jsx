@@ -20,15 +20,9 @@ const ListTicketItem = ({ ticket, onRemoved }) => {
 
     return (
         <tr >
-            <td className="text-center"> {ticket.item || ''} </td>
-            <td className="text-center"> {ticket.qty || ''} </td>
-            <td className="text-center"> {ticket.status || ''} </td>
-            <td>
-                Hight: {ticket.size.h || ''}<br />
-                Width: {ticket.size.w || ''}<br />
-                UOM: {ticket.size.uom || ''}<br />
-            </td>
-            <td className="text-center">{ticket.tags.toString() || ''}</td>
+            <td className="text-center"> {ticket.name || ''} </td>
+            <td className="text-center"> {ticket.priotity || ''} </td>
+            <td className="text-center">{ticket.desc || ''}</td>
             <td className="text-center">
                 <Link className="btn bg-primary btn-primary btn-sm" to={'/tickets/edit/' + ticket.id}>
                     <i className="fas fa-pencil-alt"></i>

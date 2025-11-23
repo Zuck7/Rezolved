@@ -18,17 +18,17 @@ function Layout() {
                 <Link to="/">
                     <i className="fas fa-home"></i> Home
                 </Link>
-                {!isAuthenticated() &&
+                {isAuthenticated() &&
                 <Link to="/ticket/list">
-                    <i className="fa-regular fa-rectangle-list"></i>Inventory List
+                    <i className="fa-regular fa-rectangle-list"></i>Ticket List
                 </Link>}
                 {!isAuthenticated() &&
                     <Link to="/users/signin">
-                        <i className="fa-solid fa-right-to-bracket"></i> Signin
+                        <i className="fa-solid fa-right-to-bracket"></i> Register/Login
                     </Link>}
                 {isAuthenticated() &&
                     <Link to="/" onClick={signoutClick}>
-                        <i className="fa-solid fa-right-from-bracket"></i> Sign-out ({getUsername()})
+                        <i className="fa-solid fa-right-from-bracket"></i> Logout ({getUsername()})
                     </Link>}
             </nav>
             <br />

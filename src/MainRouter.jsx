@@ -8,8 +8,8 @@ import Services from "./components/Services";
 import ListInventory from "./components/tickets/ListTickets";
 import AddInventory from "./components/tickets/AddTicket";
 import EditInventory from "./components/tickets/EditTicket";
-import SignIn from "./components/auth/SignIn";
-import SignUp from "./components/auth/SignUp";
+import SignIn from "./components/auth/Signin";
+import SignUp from "./components/auth/Signup";
 
 function MainRouter() {
     return (

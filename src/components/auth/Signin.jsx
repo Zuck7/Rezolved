@@ -2,8 +2,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react"
 import { signin } from "../../datasource/api-user.js";
 import { authenticate } from './auth-helper.js';
-import { auth } from "../../firebase.js";
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const Signin = () => {
     const { state } = useLocation();
@@ -21,15 +19,12 @@ const Signin = () => {
         setUser(formData => ({ ...formData, [name]: value }));
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
-
-        signInWithEmailAndPassword(auth, user.email, user.password)
+        signin(user)
             .then(data => {
-                if (data) {
-                    const userFB = data.user;
-                    console.log(userFB);
-                    authenticate(userFB.accessToken, userFB.displayName, () => {
+                if (data && data.success) {
+                    authenticate(data.token, () => {
                         navigate(from, { replace: true });
                     })
                 } else {
@@ -40,30 +35,13 @@ const Signin = () => {
                 setErrorMsg(err.message);
                 console.log(err);
             });
-
     }
-
-    const handleGoogleSignIn = () => {
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                const user = result.user;
-                console.log(user);
-                authenticate(user.accessToken, user.displayName, () => {
-                    navigate(from, { replace: true });
-                });
-            })
-            .catch((error) => {
-                setErrorMsg(error.message);
-                console.log(error);
-            });
-    };
 
     return (
         <div className="container" style={{ paddingTop: 10 }}>
             <div className="row">
                 <div className="offset-md-3 col-md-6">
-                    <h1>Signin</h1>
+                    <h1>Sign In to LeadGlobe</h1>
                     <p className="flash"><span>{errorMsg}</span></p>
                     <form onSubmit={handleSubmit} className="form card p-3">
                         <div className="form-group">
@@ -94,14 +72,6 @@ const Signin = () => {
                         <button className="btn btn-primary" type="submit">
                             <i className="fas fa-edit"></i>
                             Submit
-                        </button>
-                        &nbsp;
-                        <button
-                            type="button"
-                            onClick={handleGoogleSignIn}
-                            className="btn btn-danger"
-                        >
-                            <i className="fab fa-google"></i> Sign in with Google
                         </button>
                         &nbsp;
                         <Link to="/users/signup" style={{ textDecoration: 'none' }}>

@@ -6,32 +6,27 @@ import TicketForm from "./TicketForm";
 
 const AddTicket = () => {
     const navigate = useNavigate();
-    const [product, setProduct] = useState(new TicketModel());
+    const [ticket, setTicket] = useState(new TicketModel());
     const [errorMsg, setErrorMsg] = useState('')
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setProduct(formData => ({ ...formData, [name]: value }));
+        setTicket(formData => ({ ...formData, [name]: value }));
     }
     
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Submitting product: ", product);
+        console.log("Submitting ticket: ", ticket);
 
-        const submitProduct = {
-            id: product.id,
-            item: product.item,
-            qty: product.qty,
-            tags: product.tags.toString(),
-            status: product.status,
-            size: {
-                h: product.size_h,
-                w: product.size_w,
-                uom: product.size_uom
-            }
+        const submitTicket = {
+            id: ticket.id,
+            name: ticket.name,
+            priority: ticket.priority,
+            desc: ticket.desc,
+            user: ticket.user
         };
 
-        create(submitProduct)
+        create(submitTicket)
             .then(data => {
                 if (data && data.id) {
                     alert(`Item added with the id ${data.id}`);
@@ -54,7 +49,7 @@ const AddTicket = () => {
                     <h1>Add Ticket Item</h1>
                     <p className="flash"><span>{errorMsg}</span></p>
                     <TicketForm
-                        product={product}
+                        ticket={ticket}
                         handleChange={handleChange}
                         handleSubmit={handleSubmit}
                     />
