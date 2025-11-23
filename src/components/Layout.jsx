@@ -1,6 +1,6 @@
-import { Link, useNavigate } from 'react-router-dom'; 
-import image_logo from "../assets/image_logo.png";
-import auth from './auth/auth-helper';
+import { Link, useLocation } from 'react-router-dom';
+import image_logo from "../assets/logo.png"
+import { isAuthenticated, getUsername, clearJWT } from './auth/auth-helper';
 
 function Layout() {
     const navigate = useNavigate();
@@ -22,8 +22,7 @@ function Layout() {
                 <Link to="/">
                     <i className="fas fa-home"></i> Home
                 </Link>
-
-                <Link to="/about">
+                {/* <Link to="/about">
                     <i className="fa-solid fa-address-card"></i> About
                 </Link>
 
@@ -73,6 +72,16 @@ function Layout() {
 
                 {/* LOGGED-IN USER + SIGN OUT */}
                 {jwt && (
+                <Link to="/services">Services</Link>
+                <Link to="/contact">Contact</Link>
+                <Link to="/inventory/list">
+                    <i className="fa-regular fa-rectangle-list"></i>Inventory List
+                </Link> */}
+                {!isAuthenticated() &&
+                    <Link to="/users/signin">
+                        <i className="fa-solid fa-right-to-bracket"></i> Register/Login
+                    </Link>}
+                {isAuthenticated() &&
                     <Link to="/" onClick={signoutClick}>
                         <i className="fa-solid fa-right-from-bracket"></i>
                         Sign-out ({user?.username})
