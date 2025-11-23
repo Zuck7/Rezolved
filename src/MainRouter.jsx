@@ -1,10 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import Projects from "./components/projects";
 import Home from "./components/Home";
-import About from "./components/About";
 import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
-import Services from "./components/Services";
 import ListInventory from "./components/inventory/ListInventory";
 import AddInventory from "./components/inventory/AddInventory";
 import EditInventory from "./components/inventory/EditInventory";
@@ -17,9 +14,6 @@ function MainRouter() {
             <Layout />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/projects" element={<Projects />} />
-                <Route path="/services" element={<Services />} />
                 <Route path="/users/signin" element={<Signin />} />
                 <Route path="/users/signup" element={<Signup />} />
                 <Route path="/inventory/list" element={<ListInventory />} />

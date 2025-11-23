@@ -2,7 +2,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react"
 import { signin } from "../../datasource/api-user.js";
 import { authenticate } from './auth-helper.js';
-import { auth } from "../../firebase.js";
+// import { auth } from "../../firebase.js";
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const Signin = () => {
@@ -94,7 +94,6 @@ const Signin = () => {
                         <button className="btn btn-primary" type="submit">
                             <i className="fas fa-edit"></i>
                             Submit
-<<<<<<< Updated upstream
                         </button>
                         &nbsp;
                         <button
@@ -103,8 +102,6 @@ const Signin = () => {
                             className="btn btn-danger"
                         >
                             <i className="fab fa-google"></i> Sign in with Google
-=======
->>>>>>> Stashed changes
                         </button>
                         &nbsp;
                         <Link to="/users/signup" style={{ textDecoration: 'none' }}>
