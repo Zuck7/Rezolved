@@ -69,14 +69,6 @@ function Layout() {
                         </Link>
                     </>
                 )}
-
-                {/* LOGGED-IN USER + SIGN OUT */}
-                {jwt && (
-                <Link to="/services">Services</Link>
-                <Link to="/contact">Contact</Link>
-                <Link to="/inventory/list">
-                    <i className="fa-regular fa-rectangle-list"></i>Inventory List
-                </Link> */}
                 {!isAuthenticated() &&
                     <Link to="/users/signin">
                         <i className="fa-solid fa-right-to-bracket"></i> Register/Login
