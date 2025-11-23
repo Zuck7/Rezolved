@@ -2,8 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
 import { create } from "../../datasource/api-user.js";
 import UserModel from "../../datasource/userModel.js";
-// import { auth } from "../../firebase.js";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 const Signup = () => {
     let navigate = useNavigate();
@@ -16,27 +14,13 @@ const Signup = () => {
         setUser(formData => ({ ...formData, [name]: value }));
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
 
         if (user.password !== document.getElementById('confirmPasswordTextField').value) {
             setErrorMsg("ERROR: Passwords don't match. Please try again.");
         } else {
-            // Create the user with Firebase Authentication
-            const userCredentials = await createUserWithEmailAndPassword(auth, user.email, user.password);
-            const userFB = userCredentials.user;
-            console.log(userFB);
-
-            const result = await updateProfile(userFB, {
-                displayName: user.firstName+' '+ user.lastName
-            });
-            console.log(result);
-
-            const submitUser = user;
-            submitUser.uid = userFB.uid;
-            submitUser.displayName = user.firstName+' '+ user.lastName;
-            
-            create(submitUser)
+            create(user)
                 .then(data => {
                     if (data && data.success) {
                         alert(data.message);
@@ -79,6 +63,17 @@ const Signup = () => {
                                 placeholder="Enter last name"
                                 name="lastName"
                                 value={user.lastName || ''}
+                                onChange={handleChange}>
+                            </input>
+                        </div>
+                        <br />
+                        <div className="form-group">
+                            <label htmlFor="usernameTextField">username</label>
+                            <input type="text" className="form-control"
+                                id="usernameTextField"
+                                placeholder="Enter username"
+                                name="username"
+                                value={user.username || ''}
                                 onChange={handleChange}>
                             </input>
                         </div>
