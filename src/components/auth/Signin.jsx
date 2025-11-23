@@ -71,6 +71,7 @@ const Signin = () => {
                         &nbsp;
                         <button className="btn btn-primary" type="submit">
                             <i className="fas fa-edit"></i>
+                            Submit
                             Login
                         </button>
                         &nbsp;
