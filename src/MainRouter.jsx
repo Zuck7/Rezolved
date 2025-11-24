@@ -8,9 +8,9 @@ import EditInventory from "./components/inventory/EditInventory";
 import SignIn from "./components/auth/Signin";
 import SignUp from "./components/auth/Signup";
 import PrivateRoute from "./components/auth/PrivateRoute";
-import ListEvents from "./components/events/ListEvents";
-import AddEvent from "./components/events/AddEvent";
-import EditEvent from "./components/events/EditEvent";
+// import ListEvents from "./components/events/ListEvents";
+// import AddEvent from "./components/events/AddEvent";
+// import EditEvent from "./components/events/EditEvent";
 
 function MainRouter() {
     return (
@@ -53,7 +53,7 @@ function MainRouter() {
                 <Route path="/inventory/add" element={<AddInventory />} />
                 <Route path="/inventory/edit/:id" element={<EditInventory />} />
 
-                {/* PROTECTED EVENT ROUTES */}
+                {/* PROTECTED EVENT ROUTES
                 <Route
                     path="/events"
                     element={
@@ -77,7 +77,7 @@ function MainRouter() {
                             <EditEvent />
                         </PrivateRoute>
                     }
-                />
+                /> */}
 
                 {/* 404 ROUTE */}
                 <Route path="*" element={<NotFound />} />
