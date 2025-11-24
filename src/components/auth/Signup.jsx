@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
-import { create } from "../../datasource/api-user.js";
+import { create, signin } from "../../datasource/api-user.js";
 import UserModel from "../../datasource/userModel.js";
+import { authenticate } from "./auth-helper.js";
 
 const Signup = () => {
     let navigate = useNavigate();
@@ -23,8 +24,20 @@ const Signup = () => {
             create(user)
                 .then(data => {
                     if (data && data.success) {
-                        alert(data.message);
-                        navigate('/users/signin');
+                        signin({ email: user.email, password: user.password })
+                            .then(loginData => {
+                                if (loginData && loginData.success) {
+                                    authenticate(loginData.token, () => {
+                                        navigate('/tickets');
+                                    });
+                                } else {
+                                    setErrorMsg(loginData?.message || 'Unable to sign in after registration.');
+                                }
+                            })
+                            .catch(loginErr => {
+                                setErrorMsg(loginErr.message);
+                                console.log(loginErr);
+                            });
                     } else {
                         setErrorMsg(data.message);
                     }
@@ -54,6 +67,7 @@ const Signup = () => {
                                 onChange={handleChange}>
                             </input>
                         </div>
+                        <br />
                         <br />
                         <div className="form-group">
                             <label htmlFor="emailTextField">Email</label>

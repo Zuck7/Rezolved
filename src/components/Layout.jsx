@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import image_logo from "../assets/logo.png"
 import { isAuthenticated, getUsername, clearJWT } from './auth/auth-helper';
 
@@ -10,6 +10,14 @@ function Layout() {
     const signoutClick = () => {
         auth.clear(() => navigate("/signin"));
     };
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const signoutClick = () => {
+        clearJWT();
+        navigate('/');
+    }
 
     return (
         <>
@@ -51,6 +59,17 @@ function Layout() {
                             Events
                         </Link>
 
+                {isAuthenticated() && (
+                    <>
+                        <Link to="/tickets">
+                            Tickets
+                        </Link>
+                        <Link to="/tickets/new">
+                            New Ticket
+                        </Link>
+                        <Link to="/events">
+                            Events
+                        </Link>
                         <Link to="/events/new">
                             New Event
                         </Link>
@@ -71,7 +90,7 @@ function Layout() {
                 )}
                 {!isAuthenticated() &&
                     <Link to="/users/signin">
-                        <i className="fa-solid fa-right-to-bracket"></i> Register/Login
+                        <i className="fa-solid fa-right-to-bracket"></i> Signin
                     </Link>}
                 {isAuthenticated() &&
                     <Link to="/" onClick={signoutClick}>
