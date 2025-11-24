@@ -78,7 +78,7 @@ function Layout() {
                         <i className="fa-solid fa-right-from-bracket"></i>
                         Sign-out ({user?.username})
                     </Link>
-                )}
+                }
             </nav>
 
             <br />
