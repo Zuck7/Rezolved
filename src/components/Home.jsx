@@ -4,9 +4,7 @@ import ControlledComponent from "./counterInput";
 function Home(){
     return(
         <div>
-            <h3>Welcome to my portfolio</h3>
-            <Counter />
-            <ControlledComponent />
+            <h3>LeadGlobe Ticket Management</h3>
         </div>
     );
 }
