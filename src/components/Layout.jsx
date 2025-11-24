@@ -12,7 +12,7 @@ function Layout() {
 
     return (
         <>
-            <h1>My Portfolio</h1>
+            <h1>LeadGlobe Ticket Management</h1>
             <nav className="navbar">
                 <img src={image_logo} alt="Logo" className='logo' />
                 <Link to="/">
@@ -28,7 +28,7 @@ function Layout() {
                     </Link>}
                 {isAuthenticated() &&
                     <Link to="/" onClick={signoutClick}>
-                        <i className="fa-solid fa-right-from-bracket"></i> Logout ({getUsername()})
+                        <i className="fa-solid fa-right-from-bracket"></i> Sign-out ({getUsername()})
                     </Link>}
             </nav>
             <br />
