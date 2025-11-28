@@ -34,6 +34,9 @@ function MainRouter() {
                 {/* AUTH ROUTES */}
                 <Route path="/signin" element={<Signin />} />
                 <Route path="/signup" element={<Signup />} />
+<<<<<<< HEAD
+>>>>>>> parent of ab3b5ab (Update MainRouter.jsx)
+=======
 >>>>>>> parent of ab3b5ab (Update MainRouter.jsx)
 
                 {/* TICKET ROUTES */}
@@ -96,9 +99,13 @@ function MainRouter() {
                 <Route path="/inventory/list" element={<ListInventory />} />
                 <Route path="/inventory/add" element={<AddInventory />} />
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <Route path="/inventory/edit/:id" element={<EditInventory />} />
                 {/* PUBLIC ROUTES */}
                 <Route path="/" element={<Home />} />
+=======
+                <Route path="/inventory/edit/:id" element={<EditInventory />} /> */}
+>>>>>>> parent of ab3b5ab (Update MainRouter.jsx)
 =======
                 <Route path="/inventory/edit/:id" element={<EditInventory />} /> */}
 >>>>>>> parent of ab3b5ab (Update MainRouter.jsx)
