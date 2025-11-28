@@ -1,10 +1,12 @@
 import { Routes, Route } from "react-router-dom";
+// import Projects from "./components/projects";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
-import ListInventory from "./components/inventory/ListInventory";
-import AddInventory from "./components/inventory/AddInventory";
-import EditInventory from "./components/inventory/EditInventory";
+// import Services from "./components/Services";
+// import ListInventory from "./components/inventory/ListInventory";
+// import AddInventory from "./components/inventory/AddInventory";
+// import EditInventory from "./components/inventory/EditInventory";
 import SignIn from "./components/auth/Signin";
 import SignUp from "./components/auth/Signup";
 
@@ -23,6 +25,16 @@ function MainRouter() {
 
                 {/* PUBLIC ROUTES */}
                 <Route path="/" element={<Home />} />
+<<<<<<< HEAD
+=======
+                <Route path="/about" element={<About />} />
+                {/* <Route path="/projects" element={<Projects />} />
+                <Route path="/services" element={<Services />} />
+
+                {/* AUTH ROUTES */}
+                <Route path="/signin" element={<Signin />} />
+                <Route path="/signup" element={<Signup />} />
+>>>>>>> parent of ab3b5ab (Update MainRouter.jsx)
 
                 {/* TICKET ROUTES */}
                 <Route
@@ -83,9 +95,13 @@ function MainRouter() {
                 {/* 404 ROUTE */}
                 <Route path="/inventory/list" element={<ListInventory />} />
                 <Route path="/inventory/add" element={<AddInventory />} />
+<<<<<<< HEAD
                 <Route path="/inventory/edit/:id" element={<EditInventory />} />
                 {/* PUBLIC ROUTES */}
                 <Route path="/" element={<Home />} />
+=======
+                <Route path="/inventory/edit/:id" element={<EditInventory />} /> */}
+>>>>>>> parent of ab3b5ab (Update MainRouter.jsx)
                 <Route path="/users/signin" element={<SignIn />} />
                 <Route path="/users/signup" element={<SignUp />} />
 
