@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import image_logo from "../assets/image_logo.png"
+import image_logo from "../assets/logo.png"
 import { isAuthenticated, getUsername, clearJWT } from './auth/auth-helper';
 
 function Layout() {

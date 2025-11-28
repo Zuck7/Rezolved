@@ -9,9 +9,9 @@ import SignIn from "./components/auth/Signin";
 import SignUp from "./components/auth/Signup";
 
 import PrivateRoute from "./components/auth/PrivateRoute";
-// import ListEvents from "./components/events/ListEvents";
-// import AddEvent from "./components/events/AddEvent";
-// import EditEvent from "./components/events/EditEvent";
+import ListEvents from "./components/events/ListEvents";
+import AddEvent from "./components/events/AddEvent";
+import EditEvent from "./components/events/EditEvent";
 
 function MainRouter() {
     return (
@@ -23,7 +23,6 @@ function MainRouter() {
 
                 {/* PUBLIC ROUTES */}
                 <Route path="/" element={<Home />} />
-                <Route path="/about" element={<About />} />
 
                 {/* TICKET ROUTES */}
                 <Route
