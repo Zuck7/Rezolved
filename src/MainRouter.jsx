@@ -5,13 +5,13 @@ import Layout from "./components/Layout";
 import ListInventory from "./components/inventory/ListInventory";
 import AddInventory from "./components/inventory/AddInventory";
 import EditInventory from "./components/inventory/EditInventory";
+import ListTickets from "./components/tickets/ListTickets";
+import AddTicket from "./components/tickets/AddTicket";
+import EditTicket from "./components/tickets/EditTicket";
 import SignIn from "./components/auth/Signin";
 import SignUp from "./components/auth/Signup";
 
 import PrivateRoute from "./components/auth/PrivateRoute";
-// import ListEvents from "./components/events/ListEvents";
-// import AddEvent from "./components/events/AddEvent";
-// import EditEvent from "./components/events/EditEvent";
 
 function MainRouter() {
     return (
@@ -20,70 +20,6 @@ function MainRouter() {
             <Layout />
 
             <Routes>
-
-                {/* PUBLIC ROUTES */}
-                <Route path="/" element={<Home />} />
-
-                {/* TICKET ROUTES */}
-                <Route
-                    path="/tickets"
-                    element={
-                        <PrivateRoute>
-                            <ListInventory />
-                        </PrivateRoute>
-                    }
-                />
-
-                <Route
-                    path="/tickets/new"
-                    element={
-                        <PrivateRoute>
-                            <AddInventory />
-                        </PrivateRoute>
-                    }
-                />
-
-                <Route
-                    path="/tickets/edit/:id"
-                    element={
-                        <PrivateRoute>
-                            <EditInventory />
-                        </PrivateRoute>
-                    }
-                />
-
-                {/* EVENT ROUTES */}
-                {/* <Route
-                    path="/events"
-                    element={
-                        <PrivateRoute>
-                            <ListEvents />
-                        </PrivateRoute>
-                    }
-                />
-
-                <Route
-                    path="/events/new"
-                    element={
-                        <PrivateRoute>
-                            <AddEvent />
-                        </PrivateRoute>
-                    }
-                />
-
-                <Route
-                    path="/events/edit/:id"
-                    element={
-                        <PrivateRoute>
-                            <EditEvent />
-                        </PrivateRoute>
-                    }
-                /> */}
-
-                {/* 404 ROUTE */}
-                <Route path="/inventory/list" element={<ListInventory />} />
-                <Route path="/inventory/add" element={<AddInventory />} />
-                <Route path="/inventory/edit/:id" element={<EditInventory />} />
                 {/* PUBLIC ROUTES */}
                 <Route path="/" element={<Home />} />
                 <Route path="/users/signin" element={<SignIn />} />
@@ -94,15 +30,31 @@ function MainRouter() {
                     path="/tickets"
                     element={
                         <PrivateRoute>
-                            <ListInventory />
+                            <ListTickets />
                         </PrivateRoute>
                     }
                 />
                 <Route
-                    path="/tickets/new"
+                    path="/ticket/list"
                     element={
                         <PrivateRoute>
-                            <AddInventory />
+                            <ListTickets />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/tickets/add"
+                    element={
+                        <PrivateRoute>
+                            <AddTicket />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/ticket/add"
+                    element={
+                        <PrivateRoute>
+                            <AddTicket />
                         </PrivateRoute>
                     }
                 />
@@ -110,41 +62,36 @@ function MainRouter() {
                     path="/tickets/edit/:id"
                     element={
                         <PrivateRoute>
+                            <EditTicket />
+                        </PrivateRoute>
+                    }
+                />
+
+                {/* LEGACY INVENTORY ROUTES */}
+                <Route
+                    path="/inventory/list"
+                    element={
+                        <PrivateRoute>
+                            <ListInventory />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/inventory/add"
+                    element={
+                        <PrivateRoute>
+                            <AddInventory />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/inventory/edit/:id"
+                    element={
+                        <PrivateRoute>
                             <EditInventory />
                         </PrivateRoute>
                     }
                 />
-
-                {/* LEGACY INVENTORY ROUTES - KEPT FOR BACKWARDS COMPATIBILITY */}
-                <Route path="/inventory/list" element={<ListInventory />} />
-                <Route path="/inventory/add" element={<AddInventory />} />
-                <Route path="/inventory/edit/:id" element={<EditInventory />} />
-
-                {/* PROTECTED EVENT ROUTES
-                <Route
-                    path="/events"
-                    element={
-                        <PrivateRoute>
-                            <ListEvents />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/events/new"
-                    element={
-                        <PrivateRoute>
-                            <AddEvent />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/events/edit/:id"
-                    element={
-                        <PrivateRoute>
-                            <EditEvent />
-                        </PrivateRoute>
-                    }
-                /> */}
 
                 {/* 404 ROUTE */}
                 <Route path="*" element={<NotFound />} />

@@ -1,8 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"
-import { create, signin } from "../../datasource/api-user.js";
+import { create } from "../../datasource/api-user.js";
 import UserModel from "../../datasource/userModel.js";
-import { authenticate } from "./auth-helper.js";
 
 const Signup = () => {
     let navigate = useNavigate();
@@ -21,30 +20,28 @@ const Signup = () => {
         if (user.password !== document.getElementById('confirmPasswordTextField').value) {
             setErrorMsg("ERROR: Passwords don't match. Please try again.");
         } else {
-            create(user)
+            const userPayload = {
+                username: user.username,
+                email: user.email,
+                password: user.password,
+                role: user.user_type || 'user'
+            };
+
+            create(userPayload)
                 .then(data => {
+                    console.log('API Response:', data); // Debug log
                     if (data && data.success) {
-                        signin({ email: user.email, password: user.password })
-                            .then(loginData => {
-                                if (loginData && loginData.success) {
-                                    authenticate(loginData.token, () => {
-                                        navigate('/tickets');
-                                    });
-                                } else {
-                                    setErrorMsg(loginData?.message || 'Unable to sign in after registration.');
-                                }
-                            })
-                            .catch(loginErr => {
-                                setErrorMsg(loginErr.message);
-                                console.log(loginErr);
-                            });
+                        // Show success notification
+                        alert('User created successfully!');
+                        // Redirect to signin page
+                        navigate('/users/signin');
                     } else {
-                        setErrorMsg(data.message);
+                        setErrorMsg(data?.message || 'Failed to create user');
                     }
                 })
                 .catch(err => {
                     setErrorMsg(err.message);
-                    console.log(err);
+                    console.log('Error:', err);
                 });
         }
 
@@ -100,9 +97,9 @@ const Signup = () => {
                         </div>
                         <br />
                         <div className="form-group">
-                            <label><input type="radio" name="user_type" value="user" required/> User</label>
+                            <label><input type="radio" name="user_type" value="user" onChange={handleChange} required /> User</label>
                             &nbsp;&nbsp;&nbsp;
-                            <label><input type="radio" name="user_type" value="admin" /> Admin</label>
+                            <label><input type="radio" name="user_type" value="admin" onChange={handleChange} /> Admin</label>
                         </div>
                         &nbsp;
                         <button className="btn btn-primary" type="submit">

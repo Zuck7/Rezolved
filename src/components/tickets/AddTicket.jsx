@@ -13,31 +13,34 @@ const AddTicket = () => {
         const { name, value } = event.target;
         setTicket(formData => ({ ...formData, [name]: value }));
     }
-    
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Submitting ticket: ", ticket);
 
+        // Send ticket data matching backend expectations
         const submitTicket = {
-            id: ticket.id,
-            name: ticket.name,
+            customerName: ticket.name,
+            customerEmail: ticket.email,
             priority: ticket.priority,
-            desc: ticket.desc,
-            user: ticket.user
+            description: ticket.desc
         };
+
+        console.log("Sending ticket:", submitTicket);
 
         create(submitTicket)
             .then(data => {
-                if (data && data.id) {
-                    alert(`Item added with the id ${data.id}`);
-                    navigate("/ticket/list");
+                console.log('Create response:', data);
+                // Backend returns the created ticket object with _id
+                if (data && (data._id || data.ticketNumber)) {
+                    alert(`Ticket created successfully! Ticket #${data.ticketNumber || data._id}`);
+                    navigate("/tickets");
                 } else {
-                    setErrorMsg(data.message);
+                    setErrorMsg(data?.message || 'Failed to create ticket');
                 }
             })
             .catch(err => {
-                setErrorMsg(err.message);
-                console.log(err);
+                setErrorMsg(err?.message || 'An error occurred');
+                console.error('Create error:', err);
             });
     }
 
