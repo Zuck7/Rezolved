@@ -2,16 +2,14 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
-import ListInventory from "./components/inventory/ListInventory";
-import AddInventory from "./components/inventory/AddInventory";
-import EditInventory from "./components/inventory/EditInventory";
+
+
+import ListEvent from "./components/events/ListEvent";
+import AddEvent from "./components/events/AddEvent";
+import EditEvent from "./components/events/EditEvent";
+
 import SignIn from "./components/auth/Signin";
 import SignUp from "./components/auth/Signup";
-
-import PrivateRoute from "./components/auth/PrivateRoute";
-// import ListEvents from "./components/events/ListEvents";
-// import AddEvent from "./components/events/AddEvent";
-// import EditEvent from "./components/events/EditEvent";
 
 function MainRouter() {
     return (
@@ -53,7 +51,7 @@ function MainRouter() {
                 />
 
                 {/* EVENT ROUTES */}
-                {/* <Route
+                <Route
                     path="/events"
                     element={
                         <PrivateRoute>
@@ -78,7 +76,7 @@ function MainRouter() {
                             <EditEvent />
                         </PrivateRoute>
                     }
-                /> */}
+                />
 
                 {/* 404 ROUTE */}
                 <Route path="/inventory/list" element={<ListInventory />} />

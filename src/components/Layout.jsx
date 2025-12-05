@@ -20,7 +20,11 @@ function Layout() {
                 </Link>
                 {isAuthenticated() &&
                 <Link to="/ticket/list">
-                    <i className="fa-regular fa-rectangle-list"></i>Ticket List
+                    <i className="fa-regular fa-rectangle-list"></i>Tickets List
+                </Link>}
+                {isAuthenticated() &&
+                <Link to="/events/list">
+                    <i className="fa-regular fa-rectangle-list"></i>Events List
                 </Link>}
                 {!isAuthenticated() &&
                     <Link to="/users/signin">
