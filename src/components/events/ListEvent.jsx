@@ -9,14 +9,25 @@ const ListEvent = () => {
 
     const loadEvent = () => {
         list().then((data) => {
+            console.log('API Response:', data);
             if (data) {
-                setEventList(data || []);
-
+                // Handle different response formats
+                if (Array.isArray(data)) {
+                    setEventList(data);
+                } else if (data.data && Array.isArray(data.data)) {
+                    setEventList(data.data);
+                } else if (data.events && Array.isArray(data.events)) {
+                    setEventList(data.events);
+                } else {
+                    setEventList([]);
+                }
                 setIsLoading(false);
             }
         }).catch(err => {
-            alert(err.message);
-            console.log(err);
+            console.error('Error loading events:', err);
+            setEventList([]);
+            setIsLoading(false);
+            alert(err.message || 'Failed to load events');
         });
     }
 
@@ -32,37 +43,41 @@ const ListEvent = () => {
 
     return (
         <>
-            <div>
-                <Link to="/events/add" className="btn btn-primary align-self-end" role="button">
-                    <i className="fas fa-plus-circle"></i>
-                    Add a new Event
-                </Link>
-            </div>
-            <div className="table-responsive" >
-                {isLoading && <div>Loading...</div>}
-                {!isLoading &&
-                    <table className="table table-bordered table-striped table-hover">
-                        <thead>
-                            {/* -- Header Row-- */}
-                            <tr>
-                                <th className="text-center">Name</th>
-                                <th className="text-center">Date</th>
-                                <th className="text-center">Time</th>
-                                <th className="text-center">Location</th>
-                                <th className="text-center">Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* -- Repeatable Template Row -- */}
-                            {eventsList.map(event =>
-                                <ListItemEvent
-                                    key={event.id}
-                                    project={event}
-                                    onRemoved={handleRemove}
-                                />
-                            )}
-                        </tbody>
-                    </table>}
+            <div className="container" style={{ paddingTop: 10 }}>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h2>Event List</h2>
+                    <Link to="/events/add" className="btn btn-primary" role="button">
+                        <i className="fas fa-plus-circle"></i> Create an Event
+                    </Link>
+                </div>
+                <div className="table-responsive">
+                    {isLoading && <div className="alert alert-info">Loading events...</div>}
+                    {!isLoading && eventsList.length === 0 && (
+                        <div className="alert alert-warning">No events found. Create your first event!</div>
+                    )}
+                    {!isLoading && eventsList.length > 0 &&
+                        <table className="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th className="text-center">Name</th>
+                                    <th className="text-center">Date & Time</th>
+                                    <th className="text-center">Priority</th>
+                                    <th className="text-center">Location</th>
+                                    <th className="text-center">Description</th>
+                                    <th className="text-center" colSpan="2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {eventsList.map(event =>
+                                    <ListItemEvent
+                                        key={event._id || event.id}
+                                        event={event}
+                                        onRemoved={handleRemove}
+                                    />
+                                )}
+                            </tbody>
+                        </table>}
+                </div>
             </div>
         </>
     )

@@ -1,84 +1,136 @@
-let apiURL = import.meta.env.VITE_APP_APIURL
-import { getToken } from "../components/auth/auth-helper"
+// src/datasource/api-event.js
 
-const listEvents = async () => {
+let apiURL = import.meta.env.VITE_APP_APIURL;
+
+// Helper function to get auth headers
+const getAuthHeaders = () => {
+    const token = typeof window !== "undefined" ? sessionStorage.getItem('token') : null;
+    return {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        ...(token && { "Authorization": `Bearer ${token}` })
+    };
+};
+
+// 1. LIST events
+export const list = async () => {
     try {
-        let response = await fetch(apiURL + '/api/events/', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        return await response.json()
+        let response = await fetch(`${apiURL}/api/events/`, {
+            method: "GET",
+            headers: getAuthHeaders()
+        });
+
+        if (!response.ok) {
+            console.error('List events error:', response.status);
+            return { success: false, message: `Server Error: ${response.status}`, data: [] };
+        }
+
+        const data = await response.json();
+        return data;
     } catch (err) {
-        console.log(err)
+        console.log(err);
+        return { success: false, message: err.message, data: [] };
     }
-}
+};
 
-const removeEvent = async (id) => {
+// 2. CREATE event
+export const create = async (event) => {
     try {
-        let response = await fetch(apiURL + '/api/events/' + id, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+ getToken()
-            }
-        })
-        return await response.json()
-    } catch (err) {
-        console.log(err)
-    }
-}
+        console.log("API: Creating event with data:", event);
+        console.log("API: Request body:", JSON.stringify(event));
 
-const createEvent = async (event) => {
-    try {
-        let response = await fetch(apiURL + '/api/events/', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+ getToken()
-            },
+        let response = await fetch(`${apiURL}/api/events/`, {
+            method: "POST",
+            headers: getAuthHeaders(),
             body: JSON.stringify(event)
-        })
-        return await response.json()
-    } catch (err) {
-        console.log(err)
-    }
-}
+        });
 
-const readEvent = async (id) => {
-    try {
-        let response = await fetch(apiURL + '/api/events/' + id, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-        return await response.json()
-    } catch (err) {
-        console.log(err)
-    }
-}
+        console.log("API: Response status:", response.status);
 
-const updateEvent = async (event, id) => {
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error('Create event error:', response.status, errorData);
+            return { success: false, message: errorData.message || `Server Error: ${response.status}` };
+        }
+
+        const data = await response.json();
+        console.log("API: Success response:", data);
+        return data;
+    } catch (err) {
+        console.log(err);
+        return { success: false, message: err.message };
+    }
+};
+
+// 3. READ single event
+export const read = async (id) => {
     try {
-        let response = await fetch(apiURL + '/api/events/' + id, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+ getToken()
-            },
+        let response = await fetch(`${apiURL}/api/events/${id}`, {
+            method: "GET",
+            headers: getAuthHeaders()
+        });
+
+        if (!response.ok) {
+            console.error('Read event error:', response.status);
+            return { success: false, message: `Server Error: ${response.status}` };
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+        return { success: false, message: err.message };
+    }
+};
+
+// 4. UPDATE event
+export const update = async (event, id) => {
+    try {
+        let response = await fetch(`${apiURL}/api/events/${id}`, {
+            method: "PUT",
+            headers: getAuthHeaders(),
             body: JSON.stringify(event)
-        })
-        return await response.json()
-    } catch (err) {
-        console.log(err)
-    }
-}
+        });
 
-export { listEvents, removeEvent, createEvent, readEvent, updateEvent }
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error('Update event error:', response.status, errorData);
+            return { success: false, message: errorData.message || `Server Error: ${response.status}` };
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+        return { success: false, message: err.message };
+    }
+};
+
+// 5. REMOVE/DELETE event
+export const remove = async (id) => {
+    try {
+        let response = await fetch(`${apiURL}/api/events/${id}`, {
+            method: "DELETE",
+            headers: getAuthHeaders()
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error('Delete event error:', response.status, errorData);
+            return { success: false, message: errorData.message || `Server Error: ${response.status}` };
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+        return { success: false, message: err.message };
+    }
+};
+
+// Legacy exports for backwards compatibility
+export const listEvents = list;
+export const createEvent = create;
+export const readEvent = read;
+export const updateEvent = update;
+export const removeEvent = remove;

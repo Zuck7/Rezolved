@@ -13,54 +13,58 @@ const EditEvent = () => {
     // When the component loads.
     useEffect(() => {
         read(id).then(data => {
-            if (data) {
-                setProject(new EventModel(
-                    data.id,
-                    data.name,
-                    data.date,
-                    data.time,
-                    data.location,
-                    data.description
-                ));
+            console.log('Read response:', data);
+            if (data && data.success !== false && !data.message) {
+                setEvent({
+                    id: data._id || data.id,
+                    name: data.title || data.name,
+                    date: data.eventDate ? new Date(data.eventDate).toISOString().slice(0, 16) : '',
+                    location: data.location,
+                    description: data.description,
+                    organizer: data.organizer,
+                    organizerEmail: data.organizerEmail,
+                    priority: data.priority || 'Low'
+                });
             } else {
-                setErrorMsg(data.message);
+                setErrorMsg(data?.message || 'Failed to load event');
             }
 
         }).catch(err => {
-            setErrorMsg(err.message);
-            console.log(err);
+            setErrorMsg(err?.message || 'An error occurred');
+            console.error('Read error:', err);
         });
-    }, [id, navigate]);
+    }, [id]);
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setProject(formData => ({ ...formData, [name]: value }));
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEvent(formData => ({ ...formData, [name]: value }));
     }
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log("Submitting event: ", event);
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log("Updating event: ", event);
 
+        // Transform frontend fields to match backend schema
         const submitEvent = {
-            id: event.id,
-            name: event.name,
-            date: event.date,
-            time: event.time,
+            title: event.name,
+            eventDate: event.date,
             location: event.location,
-            description: event.description
+            description: event.description,
+            priority: event.priority || 'Low'
         };
 
         update(submitEvent, id)
             .then(data => {
                 if (data && data.success) {
-                    alert(data.message);
+                    alert(data.message || 'Event updated successfully');
                     navigate("/events/list");
                 } else {
-                    setErrorMsg(data.message);
+                    setErrorMsg(data?.message || 'Failed to update event');
                 }
             })
             .catch(err => {
-                setErrorMsg(err.message);
-                console.log(err);
+                setErrorMsg(err?.message || 'An error occurred');
+                console.error('Update error:', err);
             });
     }
 
@@ -71,7 +75,7 @@ const EditEvent = () => {
                 <div className="offset-md-3 col-md-6">
                     <h1>Edit Event</h1>
                     <p className="flash"><span>{errorMsg}</span></p>
-                    <ProjectsForm
+                    <EventForm
                         event={event}
                         handleChange={handleChange}
                         handleSubmit={handleSubmit}
@@ -82,4 +86,4 @@ const EditEvent = () => {
     );
 }
 
-export default EditProject;
+export default EditEvent;

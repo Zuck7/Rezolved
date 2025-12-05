@@ -2,43 +2,49 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EventModel from "../../datasource/eventModel";
 import { create } from "../../datasource/api-event";
-import ProjectsForm from "./EventForm";
+import EventForm from "./EventForm";
+import { getUsername } from "../auth/auth-helper";
 
 const AddEvent = () => {
     const navigate = useNavigate();
     const [event, setEvent] = useState(new EventModel());
     const [errorMsg, setErrorMsg] = useState('')
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setProject(formData => ({ ...formData, [name]: value }));
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEvent(formData => ({ ...formData, [name]: value }));
     }
     
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
         console.log("Submitting event: ", event);
 
+        // Transform frontend fields to match backend schema
         const submitEvent = {
-            id: event.id,
-            name: event.name,
-            date: event.date,
-            time: event.time,
+            title: event.name,
+            eventDate: event.date,
             location: event.location,
-            description: event.description
+            description: event.description,
+            organizer: getUsername() || 'Unknown',
+            organizerEmail: event.organizerEmail,
+            priority: event.priority || 'Low'
         };
+
+        console.log("Sending event:", submitEvent);
 
         create(submitEvent)
             .then(data => {
-                if (data && data.id) {
-                    alert(`Event added with the id ${data.id}`);
+                console.log('Create response:', data);
+                if (data && (data._id || data.id)) {
+                    alert(`Event created successfully!`);
                     navigate("/events/list");
                 } else {
-                    setErrorMsg(data.message);
+                    setErrorMsg(data?.message || 'Failed to create event');
                 }
             })
             .catch(err => {
-                setErrorMsg(err.message);
-                console.log(err);
+                setErrorMsg(err?.message || 'An error occurred');
+                console.error('Create error:', err);
             });
     }
 
@@ -49,7 +55,7 @@ const AddEvent = () => {
                 <div className="offset-md-3 col-md-6">
                     <h1>Add Event</h1>
                     <p className="flash"><span>{errorMsg}</span></p>
-                    <ProjectsForm
+                    <EventForm
                         event={event}
                         handleChange={handleChange}
                         handleSubmit={handleSubmit}

@@ -2,9 +2,9 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
-import ListInventory from "./components/inventory/ListInventory";
-import AddInventory from "./components/inventory/AddInventory";
-import EditInventory from "./components/inventory/EditInventory";
+import ListEvent from "./components/events/ListEvent";
+import AddEvent from "./components/events/AddEvent";
+import EditEvent from "./components/events/EditEvent";
 import ListTickets from "./components/tickets/ListTickets";
 import AddTicket from "./components/tickets/AddTicket";
 import EditTicket from "./components/tickets/EditTicket";
@@ -67,28 +67,45 @@ function MainRouter() {
                     }
                 />
 
-                {/* LEGACY INVENTORY ROUTES */}
+
+                {/* PROTECTED EVENT ROUTES */}
                 <Route
-                    path="/inventory/list"
+                    path="/events"
                     element={
                         <PrivateRoute>
-                            <ListInventory />
+                            <ListEvent />
                         </PrivateRoute>
                     }
                 />
                 <Route
-                    path="/inventory/add"
+                    path="/events/list"
                     element={
                         <PrivateRoute>
-                            <AddInventory />
+                            <ListEvent />
                         </PrivateRoute>
                     }
                 />
                 <Route
-                    path="/inventory/edit/:id"
+                    path="/events/add"
                     element={
                         <PrivateRoute>
-                            <EditInventory />
+                            <AddEvent />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/events/add"
+                    element={
+                        <PrivateRoute>
+                            <AddEvent />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/events/edit/:id"
+                    element={
+                        <PrivateRoute>
+                            <EditEvent />
                         </PrivateRoute>
                     }
                 />

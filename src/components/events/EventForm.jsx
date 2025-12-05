@@ -12,7 +12,7 @@ const EventForm = ({ event = {}, handleChange, handleSubmit }) => {
                 <label htmlFor="eventTextField">Event Name</label>
                 <input
                     id="eventTextField"
-                    name="event"
+                    name="name"
                     className="form-control"
                     placeholder="Enter the Event Name"
                     value={event.name || ""}
@@ -22,26 +22,14 @@ const EventForm = ({ event = {}, handleChange, handleSubmit }) => {
             </div>
 
             <div className="form-group">
-                <label htmlFor="dateTextField">Date</label>
+                <label htmlFor="dateTextField">Event Date & Time</label>
                 <input
                     id="dateTextField"
                     name="date"
+                    type="datetime-local"
                     className="form-control"
-                    placeholder="Enter the Event Date"
+                    placeholder="Enter the Event Date and Time"
                     value={event.date || ""}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-
-            <div className="form-group">
-                <label htmlFor="timeTextField">Time</label>
-                <input
-                    id="timeTextField"
-                    name="time"
-                    className="form-control"
-                    placeholder="Enter the Event Time"
-                    value={event.time || ""}
                     onChange={handleChange}
                     required
                 />
@@ -61,13 +49,45 @@ const EventForm = ({ event = {}, handleChange, handleSubmit }) => {
             </div>
 
             <div className="form-group">
+                <label htmlFor="prioritySelect">Priority</label>
+                <select
+                    id="prioritySelect"
+                    name="priority"
+                    className="form-control"
+                    value={event.priority || "Low"}
+                    onChange={handleChange}
+                    required
+                >
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                    <option value="Critical">Critical</option>
+                </select>
+            </div>
+
+            <div className="form-group">
                 <label htmlFor="descriptionTextField">Description</label>
-                <input
+                <textarea
                     id="descriptionTextField"
                     name="description"
                     className="form-control"
                     placeholder="Enter the Event Description"
                     value={event.description || ""}
+                    onChange={handleChange}
+                    rows="4"
+                    required
+                />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="organizerEmailTextField">Organizer Email</label>
+                <input
+                    id="organizerEmailTextField"
+                    name="organizerEmail"
+                    type="email"
+                    className="form-control"
+                    placeholder="Enter the Organizer Email"
+                    value={event.organizerEmail || ""}
                     onChange={handleChange}
                     required
                 />
