@@ -38,9 +38,18 @@ const create = async (user) => {
             },
             body: JSON.stringify(user)
         })
-        return await response.json()
+        
+        // Check if response is successful (status 200-299)
+        if (response.ok) {
+            const data = await response.json()
+            return { success: true, ...data }
+        } else {
+            const errorData = await response.json().catch(() => ({}))
+            return { success: false, message: errorData.message || `Server Error: ${response.status}` }
+        }
     } catch (err) {
         console.log(err)
+        return { success: false, message: err.message || 'Network error' }
     }
 }
 

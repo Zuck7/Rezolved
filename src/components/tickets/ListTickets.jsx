@@ -9,14 +9,25 @@ const ListTickets = () => {
 
     const loadTicket = () => {
         list().then((data) => {
+            console.log('API Response:', data);
             if (data) {
-                setTicketList(data || []);
-
+                // Handle different response formats
+                if (Array.isArray(data)) {
+                    setTicketList(data);
+                } else if (data.data && Array.isArray(data.data)) {
+                    setTicketList(data.data);
+                } else if (data.tickets && Array.isArray(data.tickets)) {
+                    setTicketList(data.tickets);
+                } else {
+                    setTicketList([]);
+                }
                 setIsLoading(false);
             }
         }).catch(err => {
-            alert(err.message);
-            console.log(err);
+            console.error('Error loading tickets:', err);
+            setTicketList([]);
+            setIsLoading(false);
+            alert(err.message || 'Failed to load tickets');
         });
     }
 
@@ -32,36 +43,39 @@ const ListTickets = () => {
 
     return (
         <>
-            <div>
-                <Link to="/ticket/add" className="btn btn-primary align-self-end" role="button">
-                    <i className="fas fa-plus-circle"></i>
-                    Create a Ticket
-                </Link>
-            </div>
-            <div className="table-responsive" >
-                {isLoading && <div>Loading...</div>}
-                {!isLoading &&
-                    <table className="table table-bordered table-striped table-hover">
-                        <thead>
-                            {/* -- Header Row-- */}
-                            <tr>
-                                <th className="text-center">Name</th>
-                                <th className="text-center">Priority</th>
-                                <th className="text-center">Desc</th>
-                                <th className="text-center" colSpan="3">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* -- Repeatable Template Row -- */}
-                            {ticketList.map(ticket =>
-                                <ListTicketItem
-                                    key={ticket.id}
-                                    ticket={ticket}
-                                    onRemoved={handleRemove}
-                                />
-                            )}
-                        </tbody>
-                    </table>}
+            <div className="container" style={{ paddingTop: 10 }}>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h2>Ticket List</h2>
+                    <Link to="/tickets/add" className="btn btn-primary" role="button">
+                        <i className="fas fa-plus-circle"></i> Create a Ticket
+                    </Link>
+                </div>
+                <div className="table-responsive">
+                    {isLoading && <div className="alert alert-info">Loading tickets...</div>}
+                    {!isLoading && ticketList.length === 0 && (
+                        <div className="alert alert-warning">No tickets found. Create your first ticket!</div>
+                    )}
+                    {!isLoading && ticketList.length > 0 &&
+                        <table className="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th className="text-center">Name</th>
+                                    <th className="text-center">Priority</th>
+                                    <th className="text-center">Description</th>
+                                    <th className="text-center" colSpan="2">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {ticketList.map(ticket =>
+                                    <ListTicketItem
+                                        key={ticket._id || ticket.id}
+                                        ticket={ticket}
+                                        onRemoved={handleRemove}
+                                    />
+                                )}
+                            </tbody>
+                        </table>}
+                </div>
             </div>
         </>
     )
