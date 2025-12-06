@@ -25,7 +25,7 @@ const TicketForm = ({ ticket = {}, handleChange, handleSubmit, disabled = false,
                                     placeholder="Enter customer name"
                                     value={ticket.name || ""}
                                     onChange={handleChange}
-                                    disabled={Boolean(disabled || (currentUser && !currentUser.isAdmin?.()))}
+                                    disabled={Boolean(disabled)}
                                     required
                                 />
                             </div>
@@ -41,7 +41,7 @@ const TicketForm = ({ ticket = {}, handleChange, handleSubmit, disabled = false,
                                     placeholder="Enter customer email"
                                     value={ticket.email || ""}
                                     onChange={handleChange}
-                                    disabled={Boolean(disabled || (currentUser && !currentUser.isAdmin?.()))}
+                                    disabled={Boolean(disabled)}
                                     required
                                 />
                             </div>

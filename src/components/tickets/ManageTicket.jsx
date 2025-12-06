@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { read, update } from '../../datasource/api-tickets';
+import { read, updateStatus } from '../../datasource/api-tickets';
 import { isAuthenticated } from '../auth/auth-helper';
 import { TicketIteration } from '../../datasource/TicketModel';
 
@@ -87,7 +87,13 @@ const ManageTicket = () => {
         }
 
         try {
-            const response = await update(id, updateData);
+            const statusData = {
+                status: newStatus,
+                comment: comment.trim(),
+                userEmail: currentUser?.email,
+                resolution: resolution
+            };
+            const response = await updateStatus(id, statusData);
             if (response && response.success) {
                 alert('Ticket updated successfully');
                 loadTicket();

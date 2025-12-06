@@ -109,6 +109,29 @@ export const update = async (ticket, id) => {
     }
 };
 
+// 4.1. UPDATE ticket status (Admin)
+export const updateStatus = async (id, statusData) => {
+    try {
+        let response = await fetch(`${apiURL}/api/tickets/${id}/status`, {
+            method: "PUT",
+            headers: getAuthHeaders(),
+            body: JSON.stringify(statusData)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error('Update status error:', response.status, errorData);
+            return { success: false, message: errorData.message || `Server Error: ${response.status}` };
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+        return { success: false, message: err.message };
+    }
+};
+
 // 5. REMOVE/CANCEL ticket (uses cancel endpoint since backend doesn't have hard delete)
 export const remove = async (id) => {
     try {
