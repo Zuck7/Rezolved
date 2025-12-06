@@ -41,7 +41,7 @@ const Signin = () => {
         <div className="container" style={{ paddingTop: 10 }}>
             <div className="row">
                 <div className="offset-md-3 col-md-6">
-                    <h1>Sign In to LeadGlobe</h1>
+                    <h1>Sign In to Help Desk System</h1>
                     <p className="flash"><span>{errorMsg}</span></p>
                     <form onSubmit={handleSubmit} className="form card p-3">
                         <div className="form-group">

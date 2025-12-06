@@ -1,91 +1,144 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 
-const TicketForm = ({ ticket = {}, handleChange, handleSubmit, disabled = false }) => {
+const TicketForm = ({ ticket = {}, handleChange, handleSubmit, disabled = false, currentUser = null }) => {
     const navigate = useNavigate();
 
     return (
         <form onSubmit={handleSubmit} className="form card p-3">
             <input type="hidden" name="id" value={ticket.id || ""} />
 
-            <div className="form-group">
-                <label htmlFor="nameTextField">Customer Name</label>
-                <input
-                    id="nameTextField"
-                    name="name"
-                    className="form-control"
-                    placeholder="Enter the customer name"
-                    value={ticket.name || ""}
-                    onChange={handleChange}
-                    disabled={disabled}
-                    required
-                />
+            {/* Ticket Information */}
+            <div className="card mb-3">
+                <div className="card-header">
+                    <h5 className="mb-0">Customer Information</h5>
+                </div>
+                <div className="card-body">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="form-group">
+                                <label htmlFor="customerNameTextField">Customer Name *</label>
+                                <input
+                                    id="customerNameTextField"
+                                    name="customerName"
+                                    className="form-control"
+                                    placeholder="Enter customer name"
+                                    value={ticket.customerName || ""}
+                                    onChange={handleChange}
+                                    disabled={disabled || (currentUser && !currentUser.isAdmin?.())}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="form-group">
+                                <label htmlFor="customerEmailTextField">Customer Email *</label>
+                                <input
+                                    id="customerEmailTextField"
+                                    name="customerEmail"
+                                    type="email"
+                                    className="form-control"
+                                    placeholder="Enter customer email"
+                                    value={ticket.customerEmail || ""}
+                                    onChange={handleChange}
+                                    disabled={disabled || (currentUser && !currentUser.isAdmin?.())}
+                                    required
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <br />
-            <div className="form-group">
-                <label htmlFor="emailTextField">Customer Email</label>
-                <input
-                    id="emailTextField"
-                    name="email"
-                    type="email"
-                    className="form-control"
-                    placeholder="Enter customer email"
-                    value={ticket.email || ""}
-                    onChange={handleChange}
-                    disabled={disabled}
-                    required
-                />
+            {/* Issue Details */}
+            <div className="card mb-3">
+                <div className="card-header">
+                    <h5 className="mb-0">Issue Details</h5>
+                </div>
+                <div className="card-body">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <div className="form-group">
+                                <label htmlFor="prioritySelect">Priority *</label>
+                                <select
+                                    id="prioritySelect"
+                                    name="priority"
+                                    className="form-control"
+                                    value={ticket.priority || ""}
+                                    onChange={handleChange}
+                                    disabled={disabled}
+                                    required
+                                >
+                                    <option value="">Select Priority Level</option>
+                                    <option value="LOW">🟢 Low - General inquiry or minor issue</option>
+                                    <option value="MEDIUM">🟡 Medium - Issue affects some functionality</option>
+                                    <option value="HIGH">🟠 High - Issue significantly impacts work</option>
+                                    <option value="CRITICAL">🔴 Critical - System down or blocking</option>
+                                </select>
+                                <small className="form-text text-muted">
+                                    Choose the priority level that best describes the urgency of your issue.
+                                </small>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            {ticket.ticketNumber && (
+                                <div className="form-group">
+                                    <label>Ticket Number</label>
+                                    <input
+                                        className="form-control"
+                                        value={ticket.ticketNumber}
+                                        disabled
+                                        style={{ backgroundColor: '#f8f9fa' }}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <div className="row mt-3">
+                        <div className="col-12">
+                            <div className="form-group">
+                                <label htmlFor="descriptionTextArea">Issue Description *</label>
+                                <textarea
+                                    id="descriptionTextArea"
+                                    name="description"
+                                    className="form-control"
+                                    placeholder="Please describe your issue in detail. Include:
+• What you were trying to do
+• What happened instead
+• Any error messages you saw
+• Steps to reproduce the issue"
+                                    value={ticket.description || ""}
+                                    onChange={handleChange}
+                                    disabled={disabled && ticket.status === 'CLOSED'}
+                                    rows="6"
+                                    required
+                                />
+                                <small className="form-text text-muted">
+                                    Provide as much detail as possible to help us resolve your issue quickly.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <br />
-            <div className="form-group">
-                <label htmlFor="prioritySelect">Priority</label>
-                <select
-                    id="prioritySelect"
-                    name="priority"
-                    className="form-control"
-                    value={ticket.priority || ""}
-                    onChange={handleChange}
-                    disabled={disabled}
-                    required
+            {/* Action Buttons */}
+            <div className="d-flex justify-content-between">
+                <button
+                    className="btn btn-outline-secondary"
+                    type="button"
+                    onClick={() => navigate('/tickets')}
                 >
-                    <option value="">Select Priority</option>
-                    <option value="Low">Low</option>
-                    <option value="Medium">Medium</option>
-                    <option value="High">High</option>
-                    <option value="Critical">Critical</option>
-                </select>
-            </div>
-
-            <br />
-            <div className="form-group">
-                <label htmlFor="descTextArea">Description</label>
-                <textarea
-                    id="descTextArea"
-                    name="desc"
-                    className="form-control"
-                    placeholder="Enter your ticket description here"
-                    value={ticket.desc || ""}
-                    onChange={handleChange}
+                    <i className="fas fa-arrow-left"></i> Back to Dashboard
+                </button>
+                <button
+                    className="btn btn-primary btn-lg"
+                    type="submit"
                     disabled={disabled}
-                    rows="4"
-                    required
-                />
+                >
+                    <i className="fas fa-paper-plane"></i> Submit Ticket
+                </button>
             </div>
-
-            <br />
-            <button className="btn btn-primary" type="submit" disabled={disabled}>
-                <i className="fas fa-edit"></i> Submit
-            </button>
-            &nbsp;
-            <button
-                className="btn btn-warning"
-                type="button"
-                onClick={() => navigate('/tickets')}
-            >
-                <i className="fas fa-undo"></i> Cancel
-            </button>
         </form>
     );
 };

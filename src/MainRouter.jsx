@@ -2,12 +2,10 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import Layout from "./components/Layout";
-import ListEvent from "./components/events/ListEvent";
-import AddEvent from "./components/events/AddEvent";
-import EditEvent from "./components/events/EditEvent";
 import ListTickets from "./components/tickets/ListTickets";
 import AddTicket from "./components/tickets/AddTicket";
 import EditTicket from "./components/tickets/EditTicket";
+import ManageTicket from "./components/tickets/ManageTicket";
 import SignIn from "./components/auth/Signin";
 import SignUp from "./components/auth/Signup";
 
@@ -66,46 +64,11 @@ function MainRouter() {
                         </PrivateRoute>
                     }
                 />
-
-
-                {/* PROTECTED EVENT ROUTES */}
                 <Route
-                    path="/events"
+                    path="/tickets/manage/:id"
                     element={
                         <PrivateRoute>
-                            <ListEvent />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/events/list"
-                    element={
-                        <PrivateRoute>
-                            <ListEvent />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/events/add"
-                    element={
-                        <PrivateRoute>
-                            <AddEvent />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/events/add"
-                    element={
-                        <PrivateRoute>
-                            <AddEvent />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/events/edit/:id"
-                    element={
-                        <PrivateRoute>
-                            <EditEvent />
+                            <ManageTicket />
                         </PrivateRoute>
                     }
                 />

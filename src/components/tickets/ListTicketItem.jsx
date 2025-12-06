@@ -2,7 +2,7 @@ import { remove, deleteTicket, restoreTicket } from "../../datasource/api-ticket
 import { Link } from "react-router-dom";
 import { isAdmin } from "../auth/auth-helper";
 
-const ListTicketItem = ({ ticket, onRemoved }) => {
+const ListTicketItem = ({ ticket, onRemoved, currentUser }) => {
 
     const handleRemove = (id) => {
         if (window.confirm('Are you sure you want to cancel this ticket?')) {
@@ -58,58 +58,100 @@ const ListTicketItem = ({ ticket, onRemoved }) => {
         }
     };
 
-    const isCancelled = ticket.status === 'CANCELLED' || ticket.status === 'CLOSED';
+    const isClosed = ticket.status === 'CLOSED' || ticket.status === 'CANCELLED';
     const userIsAdmin = isAdmin();
 
+    const formatDate = (dateString) => {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    };
+
+    const getStatusBadge = (status) => {
+        const statusColors = {
+            'NEW': 'primary',
+            'IN_PROGRESS': 'warning',
+            'DISPATCHED': 'info',
+            'CLOSED': 'success',
+            'CANCELLED': 'secondary'
+        };
+        return `bg-${statusColors[status] || 'secondary'}`;
+    };
+
+    const getPriorityBadge = (priority) => {
+        const priorityColors = {
+            'CRITICAL': 'danger',
+            'HIGH': 'warning',
+            'MEDIUM': 'info',
+            'LOW': 'secondary'
+        };
+        return `bg-${priorityColors[priority?.toUpperCase()] || 'secondary'}`;
+    };
+
     return (
-        <tr className={isCancelled ? 'table-secondary' : ''}>
+        <tr className={isClosed ? 'table-light text-muted' : ''} style={{ cursor: 'pointer' }}>
             <td className="text-center">
-                {ticket.customerName || ticket.name || ''}
-                {isCancelled && <span className="badge bg-secondary ms-2">{ticket.status}</span>}
+                <strong>{ticket.ticketNumber || ticket.ticketId || `TKT-${ticket._id?.slice(-6) || ticket.id?.slice(-6) || 'UNKNOWN'}`}</strong>
             </td>
             <td className="text-center">
-                <span className={`badge bg-${ticket.priority === 'Critical' ? 'danger' :
-                        ticket.priority === 'High' ? 'warning' :
-                            ticket.priority === 'Medium' ? 'info' : 'secondary'
-                    }`}>
-                    {ticket.priority || 'N/A'}
+                <div>
+                    <strong>{ticket.customerName || ticket.name || 'N/A'}</strong>
+                    {ticket.customerEmail && (
+                        <div className="small text-muted">{ticket.customerEmail}</div>
+                    )}
+                </div>
+            </td>
+            <td className="text-left">
+                <div className="text-truncate" style={{ maxWidth: '200px' }} title={ticket.description || ticket.desc || ''}>
+                    {ticket.description || ticket.desc || 'No description'}
+                </div>
+            </td>
+            <td className="text-center">
+                <span className={`badge ${getPriorityBadge(ticket.priority)}`}>
+                    {ticket.priority?.toUpperCase() || 'LOW'}
                 </span>
             </td>
-            <td className="text-center">{ticket.description || ticket.desc || ''}</td>
             <td className="text-center">
-                {!isCancelled ? (
-                    <Link className="btn bg-primary btn-primary btn-sm" to={'/tickets/edit/' + (ticket._id || ticket.id)}>
-                        <i className="fas fa-pencil-alt"></i> Edit
-                    </Link>
-                ) : (
-                    <button className="btn btn-secondary btn-sm" disabled>
-                        <i className="fas fa-lock"></i> Locked
-                    </button>
+                <span className={`badge ${getStatusBadge(ticket.status)}`}>
+                    {ticket.status || 'NEW'}
+                </span>
+            </td>
+            <td className="text-center">
+                <div className="small">
+                    {formatDate(ticket.createdAt || ticket.created)}
+                </div>
+                {ticket.assignedTo && (
+                    <div className="small text-muted">Assigned: {ticket.assignedTo}</div>
                 )}
             </td>
             <td className="text-center">
-                {!isCancelled ? (
-                    <button
-                        className="btn bg-warning btn-warning btn-sm"
-                        onClick={() => handleRemove(ticket._id || ticket.id)}>
-                        <i className="fas fa-times-circle"></i> Cancel
-                    </button>
-                ) : (
-                    <div className="btn-group btn-group-sm" role="group">
-                        {userIsAdmin && (
-                            <button
-                                className="btn bg-success btn-success"
-                                onClick={() => handleRestore(ticket._id || ticket.id)}>
-                                <i className="fas fa-undo"></i> Restore
-                            </button>
-                        )}
+                <div className="btn-group btn-group-sm" role="group">
+                    <Link
+                        className="btn btn-outline-primary btn-sm"
+                        to={'/tickets/edit/' + (ticket._id || ticket.id)}
+                        title="View/Edit Ticket"
+                    >
+                        <i className="fas fa-eye"></i>
+                    </Link>
+                    {userIsAdmin && !isClosed && (
+                        <Link
+                            className="btn btn-outline-warning btn-sm"
+                            to={'/tickets/manage/' + (ticket._id || ticket.id)}
+                            title="Manage Ticket"
+                        >
+                            <i className="fas fa-cogs"></i>
+                        </Link>
+                    )}
+                    {!isClosed && (
                         <button
-                            className="btn bg-danger btn-danger"
-                            onClick={() => handleDelete(ticket._id || ticket.id)}>
-                            <i className="fas fa-trash-alt"></i> Delete
+                            className="btn btn-outline-danger btn-sm"
+                            onClick={() => handleRemove(ticket._id || ticket.id)}
+                            title="Cancel Ticket"
+                        >
+                            <i className="fas fa-ban"></i>
                         </button>
-                    </div>
-                )}
+                    )}
+                </div>
             </td>
         </tr>
     );

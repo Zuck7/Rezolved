@@ -45,16 +45,40 @@ const AddTicket = () => {
     }
 
 
+    useEffect(() => {
+        const auth = isAuthenticated();
+        if (auth) {
+            setCurrentUser(auth.user);
+            // Pre-populate customer info if user is not admin
+            if (auth.user && !auth.user.isAdmin?.()) {
+                const fullName = auth.user.getFullName?.() || auth.user.displayName || auth.user.username;
+                const email = auth.user.email;
+
+                setTicket(prev => new TicketModel({
+                    ...prev,
+                    customerName: fullName,
+                    customerEmail: email
+                }));
+            }
+        }
+    }, []);
+
     return (
         <div className="container" style={{ paddingTop: 10 }}>
             <div className="row">
-                <div className="offset-md-3 col-md-6">
-                    <h1>Add Ticket Item</h1>
-                    <p className="flash"><span>{errorMsg}</span></p>
+                <div className="offset-md-2 col-md-8">
+                    <h1>Create New Support Ticket</h1>
+                    <p className="text-muted">Please provide details about your issue or request</p>
+                    {errorMsg && (
+                        <div className="alert alert-danger" role="alert">
+                            {errorMsg}
+                        </div>
+                    )}
                     <TicketForm
                         ticket={ticket}
                         handleChange={handleChange}
                         handleSubmit={handleSubmit}
+                        currentUser={currentUser}
                     />
                 </div>
             </div>
