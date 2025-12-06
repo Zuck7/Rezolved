@@ -57,7 +57,7 @@ class TicketIteration {
     constructor({
         id = null,
         ticketId = null,
-        username = '',
+        userEmail = '',
         comment = '',
         statusChange = null,
         fieldChanges = {},
@@ -65,7 +65,7 @@ class TicketIteration {
     } = {}) {
         this.id = id;
         this.ticketId = ticketId;
-        this.username = username;
+        this.userEmail = userEmail;
         this.comment = comment;
         this.statusChange = statusChange; // { from: 'OLD_STATUS', to: 'NEW_STATUS' }
         this.fieldChanges = fieldChanges; // { field: { from: 'old', to: 'new' } }

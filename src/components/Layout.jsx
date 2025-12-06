@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import image_logo from "../assets/logo.png"
-import { isAuthenticated, getUsername, clearJWT } from './auth/auth-helper';
+import { isAuthenticated, getEmail, getUserInfo, clearJWT } from './auth/auth-helper';
 
 function Layout() {
 
@@ -63,7 +63,7 @@ function Layout() {
                             ) : (
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                        <i className="fas fa-user"></i> {getUsername()}
+                                        <i className="fas fa-user"></i> {getUserInfo()?.firstName ? `${getUserInfo().firstName} ${getUserInfo().lastName}` : getEmail()}
                                     </a>
                                     <ul className="dropdown-menu">
                                         <li><Link className="dropdown-item" to="/tickets"><i className="fas fa-ticket-alt"></i> My Tickets</Link></li>

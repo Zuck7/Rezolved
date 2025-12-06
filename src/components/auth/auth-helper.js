@@ -6,7 +6,7 @@ const authenticate = (token, cb) => {
     sessionStorage.setItem('token', token);
 
     let decoded = jwtDecode(token);
-    sessionStorage.setItem('username', decoded.username)
+    sessionStorage.setItem('email', decoded.email)
     sessionStorage.setItem('role', decoded.role || decoded.userType || 'USER')
     sessionStorage.setItem('userInfo', JSON.stringify(decoded));
   }
@@ -38,11 +38,11 @@ const getToken = () => {
   return sessionStorage.getItem('token');
 }
 
-const getUsername = () => {
+const getEmail = () => {
   if (typeof window === "undefined") {
     return false;
   }
-  return sessionStorage.getItem('username');
+  return sessionStorage.getItem('email');
 }
 
 const getUserInfo = () => {
@@ -73,10 +73,10 @@ const isAdmin = () => {
 const clearJWT = () => {
   if (typeof window !== "undefined") {
     sessionStorage.removeItem('token');
-    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('email');
     sessionStorage.removeItem('role');
     sessionStorage.removeItem('userInfo');
   }
 }
 
-export { authenticate, isAuthenticated, getToken, getUsername, getUserInfo, isAdmin, clearJWT }
+export { authenticate, isAuthenticated, getToken, getEmail, getUserInfo, isAdmin, clearJWT }

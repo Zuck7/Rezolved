@@ -33,23 +33,7 @@ function MainRouter() {
                     }
                 />
                 <Route
-                    path="/ticket/list"
-                    element={
-                        <PrivateRoute>
-                            <ListTickets />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
                     path="/tickets/add"
-                    element={
-                        <PrivateRoute>
-                            <AddTicket />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="/ticket/add"
                     element={
                         <PrivateRoute>
                             <AddTicket />

@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import TicketModel from "../../datasource/TicketModel";
 import { create } from "../../datasource/api-tickets";
+import { isAuthenticated } from "../auth/auth-helper";
 import TicketForm from "./TicketForm";
 
 const AddTicket = () => {
     const navigate = useNavigate();
     const [ticket, setTicket] = useState(new TicketModel());
-    const [errorMsg, setErrorMsg] = useState('')
+    const [errorMsg, setErrorMsg] = useState('');
+    const [currentUser, setCurrentUser] = useState(null);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -51,13 +53,13 @@ const AddTicket = () => {
             setCurrentUser(auth.user);
             // Pre-populate customer info if user is not admin
             if (auth.user && !auth.user.isAdmin?.()) {
-                const fullName = auth.user.getFullName?.() || auth.user.displayName || auth.user.username;
+                const fullName = auth.user.getFullName?.() || auth.user.email;
                 const email = auth.user.email;
 
                 setTicket(prev => new TicketModel({
                     ...prev,
-                    customerName: fullName,
-                    customerEmail: email
+                    name: fullName,
+                    email: email
                 }));
             }
         }

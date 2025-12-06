@@ -61,7 +61,7 @@ function Home(){
                 <div>
                     <div className="row mb-4">
                         <div className="col-12">
-                            <h2>Welcome back, {currentUser.getFullName?.() || currentUser.displayName || currentUser.username}!</h2>
+                            <h2>Welcome back, {currentUser.getFullName?.() || currentUser.email}!</h2>
                             <div className="row">
                                 <div className="col-md-8">
                                     <p className="text-muted mb-1">
@@ -78,8 +78,6 @@ function Home(){
                                     {currentUser.userType === 'ADMIN' && (
                                         <p className="text-muted small">
                                             <i className="fas fa-building"></i> {currentUser.department} Department
-                                            {currentUser.position && ` • ${currentUser.position}`}
-                                            {currentUser.employeeId && ` • ID: ${currentUser.employeeId}`}
                                         </p>
                                     )}
                                 </div>

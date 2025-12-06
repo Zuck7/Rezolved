@@ -115,7 +115,7 @@ export const remove = async (id) => {
         let response = await fetch(`${apiURL}/api/tickets/${id}/cancel`, {
             method: "PUT",
             headers: getAuthHeaders(),
-            body: JSON.stringify({ username: "User" })
+            body: JSON.stringify({ userEmail: "User" })
         });
 
         if (!response.ok) {

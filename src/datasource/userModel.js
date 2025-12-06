@@ -1,9 +1,6 @@
 class UserModel {
     constructor({
         id = null,
-        uid = null,
-        username = '',
-        displayName = '',
         email = '',
         password = '',
         userType = 'USER', // USER or ADMIN
@@ -13,29 +10,16 @@ class UserModel {
         studentId = '',
         // Admin-specific fields
         department = '',
-        employeeId = '',
-        position = '',
-        createdAt = new Date(),
-        updatedAt = new Date(),
         isActive = true
     } = {}) {
         this.id = id;
-        this.uid = uid;
-        this.username = username;
-        this.displayName = displayName;
         this.email = email;
         this.password = password;
         this.userType = userType;
         this.firstName = firstName;
         this.lastName = lastName;
-        // Student fields
         this.studentId = studentId;
-        // Admin fields
         this.department = department;
-        this.employeeId = employeeId;
-        this.position = position;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
         this.isActive = isActive;
     }
 
@@ -46,7 +30,7 @@ class UserModel {
 
     // Get full name
     getFullName() {
-        return `${this.firstName} ${this.lastName}`.trim() || this.displayName || this.username;
+        return `${this.firstName} ${this.lastName}`.trim() || this.email;
     }
 
     // Check if user can manage tickets

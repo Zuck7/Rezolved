@@ -63,7 +63,7 @@ const ManageTicket = () => {
         setError('');
 
         const iteration = new TicketIteration({
-            username: currentUser?.username || currentUser?.displayName,
+            userEmail: currentUser?.email,
             comment: comment.trim(),
             statusChange: newStatus !== ticket.status ? {
                 from: ticket.status,
@@ -79,7 +79,7 @@ const ManageTicket = () => {
             resolution: resolution,
             iterations: [...(ticket.iterations || []), iteration],
             updatedAt: new Date(),
-            assignedTo: currentUser?.username || currentUser?.displayName
+            assignedTo: currentUser?.email
         };
 
         if (newStatus === 'CLOSED') {
@@ -222,7 +222,7 @@ const ManageTicket = () => {
                                     {ticket.iterations.map((iteration, index) => (
                                         <div key={index} className="timeline-item mb-3 border-start border-3 border-primary ps-3">
                                             <div className="d-flex justify-content-between">
-                                                <strong>{iteration.username}</strong>
+                                                <strong>{iteration.userEmail}</strong>
                                                 <small className="text-muted">{formatDate(iteration.timestamp)}</small>
                                             </div>
                                             {iteration.statusChange && (

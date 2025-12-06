@@ -25,7 +25,6 @@ const Signup = () => {
             setErrorMsg("ERROR: Passwords don't match. Please try again.");
         } else {
             let userPayload = {
-                username: user.username,
                 email: user.email,
                 password: user.password,
                 userType: user.userType || 'USER',
@@ -38,8 +37,6 @@ const Signup = () => {
                 userPayload.studentId = user.studentId || '';
             } else if (user.userType === 'ADMIN') {
                 userPayload.department = user.department || '';
-                userPayload.employeeId = user.employeeId || '';
-                userPayload.position = user.position || '';
             }
 
             create(userPayload)
@@ -69,18 +66,6 @@ const Signup = () => {
                     <h1>Register to Help Desk System</h1>
                     <p className="flash"><span>{errorMsg}</span></p>
                     <form onSubmit={handleSubmit} className="form card p-3">
-                        <div className="form-group">
-                            <label htmlFor="usernameTextField">Username</label>
-                            <input type="text" className="form-control"
-                                id="usernameTextField"
-                                placeholder="Enter username"
-                                name="username"
-                                value={user.username || ''}
-                                onChange={handleChange}>
-                            </input>
-                        </div>
-                        <br />
-                        <br />
                         <div className="form-group">
                             <label htmlFor="emailTextField">Email</label>
                             <input type="text" className="form-control"
@@ -147,49 +132,25 @@ const Signup = () => {
                                 </input>
                             </div>
                         ) : (
-                            <>
-                                <div className="form-group">
-                                    <label htmlFor="employeeIdTextField">Employee ID</label>
-                                    <input type="text" className="form-control"
-                                        id="employeeIdTextField"
-                                        placeholder="Enter your employee ID"
-                                        name="employeeId"
-                                        value={user.employeeId || ''}
-                                        onChange={handleChange}>
-                                    </input>
-                                </div>
-                                <br />
-                                <div className="form-group">
-                                    <label htmlFor="departmentTextField">Department *</label>
-                                    <select className="form-control"
-                                        id="departmentTextField"
-                                        name="department"
-                                        value={user.department || ''}
-                                        onChange={handleChange}
-                                        required>
-                                        <option value="">Select Department</option>
-                                        <option value="IT">Information Technology</option>
-                                        <option value="HR">Human Resources</option>
-                                        <option value="ADMIN">Administration</option>
-                                        <option value="ACADEMICS">Academic Affairs</option>
-                                        <option value="FACILITIES">Facilities Management</option>
-                                        <option value="FINANCE">Finance</option>
-                                        <option value="LIBRARY">Library Services</option>
-                                        <option value="STUDENT_SERVICES">Student Services</option>
-                                    </select>
-                                </div>
-                                <br />
-                                <div className="form-group">
-                                    <label htmlFor="positionTextField">Position/Title</label>
-                                    <input type="text" className="form-control"
-                                        id="positionTextField"
-                                        placeholder="e.g., IT Support Specialist, Admin Assistant"
-                                        name="position"
-                                        value={user.position || ''}
-                                        onChange={handleChange}>
-                                    </input>
-                                </div>
-                            </>
+                            <div className="form-group">
+                                <label htmlFor="departmentTextField">Department *</label>
+                                <select className="form-control"
+                                    id="departmentTextField"
+                                    name="department"
+                                    value={user.department || ''}
+                                    onChange={handleChange}
+                                    required>
+                                    <option value="">Select Department</option>
+                                    <option value="IT">Information Technology</option>
+                                    <option value="HR">Human Resources</option>
+                                    <option value="ADMIN">Administration</option>
+                                    <option value="ACADEMICS">Academic Affairs</option>
+                                    <option value="FACILITIES">Facilities Management</option>
+                                    <option value="FINANCE">Finance</option>
+                                    <option value="LIBRARY">Library Services</option>
+                                    <option value="STUDENT_SERVICES">Student Services</option>
+                                </select>
+                            </div>
                         )}
                         <br />
                         <div className="form-group">

@@ -20,12 +20,12 @@ const TicketForm = ({ ticket = {}, handleChange, handleSubmit, disabled = false,
                                 <label htmlFor="customerNameTextField">Customer Name *</label>
                                 <input
                                     id="customerNameTextField"
-                                    name="customerName"
+                                    name="name"
                                     className="form-control"
                                     placeholder="Enter customer name"
-                                    value={ticket.customerName || ""}
+                                    value={ticket.name || ""}
                                     onChange={handleChange}
-                                    disabled={disabled || (currentUser && !currentUser.isAdmin?.())}
+                                    disabled={Boolean(disabled || (currentUser && !currentUser.isAdmin?.()))}
                                     required
                                 />
                             </div>
@@ -35,13 +35,13 @@ const TicketForm = ({ ticket = {}, handleChange, handleSubmit, disabled = false,
                                 <label htmlFor="customerEmailTextField">Customer Email *</label>
                                 <input
                                     id="customerEmailTextField"
-                                    name="customerEmail"
+                                    name="email"
                                     type="email"
                                     className="form-control"
                                     placeholder="Enter customer email"
-                                    value={ticket.customerEmail || ""}
+                                    value={ticket.email || ""}
                                     onChange={handleChange}
-                                    disabled={disabled || (currentUser && !currentUser.isAdmin?.())}
+                                    disabled={Boolean(disabled || (currentUser && !currentUser.isAdmin?.()))}
                                     required
                                 />
                             </div>
@@ -66,7 +66,7 @@ const TicketForm = ({ ticket = {}, handleChange, handleSubmit, disabled = false,
                                     className="form-control"
                                     value={ticket.priority || ""}
                                     onChange={handleChange}
-                                    disabled={disabled}
+                                    disabled={!!disabled}
                                     required
                                 >
                                     <option value="">Select Priority Level</option>
@@ -87,7 +87,8 @@ const TicketForm = ({ ticket = {}, handleChange, handleSubmit, disabled = false,
                                     <input
                                         className="form-control"
                                         value={ticket.ticketNumber}
-                                        disabled
+                                        disabled={true}
+                                        readOnly
                                         style={{ backgroundColor: '#f8f9fa' }}
                                     />
                                 </div>
@@ -100,16 +101,16 @@ const TicketForm = ({ ticket = {}, handleChange, handleSubmit, disabled = false,
                                 <label htmlFor="descriptionTextArea">Issue Description *</label>
                                 <textarea
                                     id="descriptionTextArea"
-                                    name="description"
+                                    name="desc"
                                     className="form-control"
                                     placeholder="Please describe your issue in detail. Include:
 • What you were trying to do
 • What happened instead
 • Any error messages you saw
 • Steps to reproduce the issue"
-                                    value={ticket.description || ""}
+                                    value={ticket.desc || ""}
                                     onChange={handleChange}
-                                    disabled={disabled && ticket.status === 'CLOSED'}
+                                    disabled={!!(disabled && ticket.status === 'CLOSED')}
                                     rows="6"
                                     required
                                 />
@@ -134,7 +135,7 @@ const TicketForm = ({ ticket = {}, handleChange, handleSubmit, disabled = false,
                 <button
                     className="btn btn-primary btn-lg"
                     type="submit"
-                    disabled={disabled}
+                    disabled={!!disabled}
                 >
                     <i className="fas fa-paper-plane"></i> Submit Ticket
                 </button>
