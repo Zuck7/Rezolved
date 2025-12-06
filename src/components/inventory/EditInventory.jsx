@@ -1,91 +1,92 @@
-import React, { useState, useEffect } from "react";
+// src/components/inventory/EditInventory.jsx
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import InventoryModel from "../../datasource/inventoryModel";
-import { update, read } from "../../datasource/api-inventory";
 import InventoryForm from "./InventoryForm";
+import { readTicket, updateTicket } from "../../datasource/api-inventory";
 
 const EditInventory = () => {
-    const navigate = useNavigate();
-    const { id } = useParams();
-    const [product, setProduct] = useState(new InventoryModel());
-    const [errorMsg, setErrorMsg] = useState('')
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    // When the component loads.
-    useEffect(() => {
-        read(id).then(data => {
-            if (data) {
-                setProduct(new InventoryModel(
-                    data.id,
-                    data.item,
-                    data.qty,
-                    data.tags,
-                    data.status,
-                    data.size.h,
-                    data.size.w,
-                    data.size.uom
-                ));
-            } else {
-                setErrorMsg(data.message);
-            }
+  const [values, setValues] = useState({
+    ticketNumber: "",
+    customerName: "",
+    customerEmail: "",
+    priority: "Low",
+    description: "",
+    status: "",
+    error: "",
+    loading: true,
+  });
 
-        }).catch(err => {
-            setErrorMsg(err.message);
-            console.log(err);
-        });
-    }, [id, navigate]);
+  useEffect(() => {
+    const loadTicket = async () => {
+      try {
+        const data = await readTicket(id);
 
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setProduct(formData => ({ ...formData, [name]: value }));
+        if (data.message && !data._id) {
+          setValues((v) => ({ ...v, error: data.message, loading: false }));
+        } else {
+          setValues({
+            ticketNumber: data.ticketNumber,
+            customerName: data.customerName,
+            customerEmail: data.customerEmail,
+            priority: data.priority,
+            description: data.description,
+            status: data.status,
+            error: "",
+            loading: false,
+          });
+        }
+      } catch {
+        setValues((v) => ({ ...v, error: "Unable to load ticket.", loading: false }));
+      }
+    };
+
+    loadTicket();
+  }, [id]);
+
+  const handleChange = (name) => (e) => {
+    setValues({ ...values, [name]: e.target.value, error: "" });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const data = await updateTicket(id, {
+        priority: values.priority,
+        description: values.description,
+      });
+
+      if (data.error || (data.message && !data.success)) {
+        setValues({ ...values, error: data.error || data.message });
+      } else {
+        navigate("/tickets");
+      }
+    } catch {
+      setValues({ ...values, error: "Unable to update ticket." });
     }
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log("Submitting product: ", product);
+  };
 
-        const submitProduct = {
-            id: product.id,
-            item: product.item,
-            qty: product.qty,
-            tags: product.tags.toString(),
-            status: product.status,
-            size: {
-                h: product.size_h,
-                w: product.size_w,
-                uom: product.size_uom
-            }
-        };
+  if (values.loading) return <p>Loading...</p>;
 
-        update(submitProduct, id)
-            .then(data => {
-                if (data && data.success) {
-                    alert(data.message);
-                    navigate("/inventory/list");
-                } else {
-                    setErrorMsg(data.message);
-                }
-            })
-            .catch(err => {
-                setErrorMsg(err.message);
-                console.log(err);
-            });
-    }
+  return (
+    <section>
+      <h2>Edit Ticket</h2>
+      <p><strong>Status:</strong> {values.status}</p>
 
+      {values.error && <p className="error">{values.error}</p>}
 
-    return (
-        <div className="container" style={{ paddingTop: 10 }}>
-            <div className="row">
-                <div className="offset-md-3 col-md-6">
-                    <h1>Edit Inventory Item</h1>
-                    <p className="flash"><span>{errorMsg}</span></p>
-                    <InventoryForm
-                        product={product}
-                        handleChange={handleChange}
-                        handleSubmit={handleSubmit}
-                    />
-                </div>
-            </div>
-        </div>
-    );
-}
+      <InventoryForm
+        values={values}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        submitLabel="Save Changes"
+        isEdit={true}
+      />
+    </section>
+  );
+};
 
 export default EditInventory;
