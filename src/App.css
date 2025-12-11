@@ -93,3 +93,13 @@
   color: #ffcc00; /* highlight color */
 }
 
+/* Make dropdown items black */
+.dropdown-item {
+  color: #000 !important;
+}
+
+.dropdown-item:hover {
+  color: #000 !important;
+  background-color: #f8f9fa !important;
+}
+
