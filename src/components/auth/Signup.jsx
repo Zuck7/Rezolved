@@ -60,138 +60,122 @@ const Signup = () => {
     }
 
     return (
-        <div className="container" style={{ paddingTop: 10 }}>
-            <div className="row">
-                <div className="offset-md-3 col-md-6">
-                    <h1>Register to Help Desk System</h1>
-                    <p className="flash"><span>{errorMsg}</span></p>
-                    <form onSubmit={handleSubmit} className="form card p-3">
-                        <div className="form-group">
-                            <label htmlFor="emailTextField">Email</label>
-                            <input type="text" className="form-control"
-                                id="emailTextField"
-                                placeholder="Enter a email"
-                                name="email"
-                                value={user.email || ''}
-                                onChange={handleChange}>
-                            </input>
-                        </div>
-                        <br />
-                        <div className="form-group">
-                            <label htmlFor="passwordTextField">Password</label>
-                            <input type="password" className="form-control"
-                                id="passwordTextField"
-                                placeholder="Enter a password"
-                                name="password"
-                                value={user.password || ''}
-                                onChange={handleChange}>
-                            </input>
-                        </div>
-                        <br />
-                        <div className="form-group">
-                            <label htmlFor="confirmPasswordTextField">Confirm Password</label>
-                            <input type="password" className="form-control"
-                                id="confirmPasswordTextField"
-                                placeholder="Confirm password">
-                            </input>
-                        </div>
-                        <br />
-                        <div className="form-group">
+        <div className="hd-auth-page" style={{ alignItems: 'flex-start', paddingTop: '3rem' }}>
+            <div className="hd-auth-card" style={{ maxWidth: 560 }}>
+                <h2 className="hd-auth-title">Create an account</h2>
+                <p className="hd-auth-sub">Register to access Rezolved</p>
+                {errorMsg && <div className="alert alert-danger py-2">{errorMsg}</div>}
+                <form onSubmit={handleSubmit}>
+                    <div className="row g-3 mb-3">
+                        <div className="col-md-6 form-group">
                             <label htmlFor="firstNameTextField">First Name</label>
                             <input type="text" className="form-control"
                                 id="firstNameTextField"
-                                placeholder="Enter first name"
+                                placeholder="First name"
                                 name="firstName"
                                 value={user.firstName || ''}
-                                onChange={handleChange}>
-                            </input>
+                                onChange={handleChange} />
                         </div>
-                        <br />
-                        <div className="form-group">
+                        <div className="col-md-6 form-group">
                             <label htmlFor="lastNameTextField">Last Name</label>
                             <input type="text" className="form-control"
                                 id="lastNameTextField"
-                                placeholder="Enter last name"
+                                placeholder="Last name"
                                 name="lastName"
                                 value={user.lastName || ''}
-                                onChange={handleChange}>
-                            </input>
+                                onChange={handleChange} />
                         </div>
-                        <br />
-                        {/* Conditional fields based on user type */}
-                        {selectedUserType === 'USER' ? (
-                            <div className="form-group">
-                                <label htmlFor="studentIdTextField">Student ID *</label>
-                                <input type="text" className="form-control"
-                                    id="studentIdTextField"
-                                    placeholder="Enter your student ID"
-                                    name="studentId"
-                                    value={user.studentId || ''}
-                                    onChange={handleChange}
-                                    required>
-                                </input>
-                            </div>
-                        ) : (
-                            <div className="form-group">
-                                <label htmlFor="departmentTextField">Department *</label>
-                                <select className="form-control"
-                                    id="departmentTextField"
-                                    name="department"
-                                    value={user.department || ''}
-                                    onChange={handleChange}
-                                    required>
-                                    <option value="">Select Department</option>
-                                    <option value="IT">Information Technology</option>
-                                    <option value="HR">Human Resources</option>
-                                    <option value="ADMIN">Administration</option>
-                                    <option value="ACADEMICS">Academic Affairs</option>
-                                    <option value="FACILITIES">Facilities Management</option>
-                                    <option value="FINANCE">Finance</option>
-                                    <option value="LIBRARY">Library Services</option>
-                                    <option value="STUDENT_SERVICES">Student Services</option>
-                                </select>
-                            </div>
-                        )}
-                        <br />
-                        <div className="form-group">
-                            <label>I am registering as:</label><br />
-                            <div className="row mt-2">
-                                <div className="col-md-6">
-                                    <div className="card" style={{ cursor: 'pointer', border: selectedUserType === 'USER' ? '2px solid #007bff' : '1px solid #dee2e6' }}>
-                                        <div className="card-body text-center" onClick={() => { setSelectedUserType('USER'); setUser(prev => ({...prev, userType: 'USER'})); }}>
-                                            <input type="radio" name="userType" value="USER" onChange={handleChange} checked={selectedUserType === 'USER'} required />
-                                            <i className="fas fa-user-graduate fa-2x d-block mt-2 mb-2 text-primary"></i>
-                                            <h5>Student</h5>
-                                            <p className="small text-muted">Submit tickets for academic and technical support</p>
-                                        </div>
+                    </div>
+                    <div className="form-group mb-3">
+                        <label htmlFor="emailTextField">Email</label>
+                        <input type="text" className="form-control"
+                            id="emailTextField"
+                            placeholder="Enter your email"
+                            name="email"
+                            value={user.email || ''}
+                            onChange={handleChange} />
+                    </div>
+                    <div className="row g-3 mb-3">
+                        <div className="col-md-6 form-group">
+                            <label htmlFor="passwordTextField">Password</label>
+                            <input type="password" className="form-control"
+                                id="passwordTextField"
+                                placeholder="Password"
+                                name="password"
+                                value={user.password || ''}
+                                onChange={handleChange} />
+                        </div>
+                        <div className="col-md-6 form-group">
+                            <label htmlFor="confirmPasswordTextField">Confirm Password</label>
+                            <input type="password" className="form-control"
+                                id="confirmPasswordTextField"
+                                placeholder="Confirm password" />
+                        </div>
+                    </div>
+                    {/* Conditional fields based on user type */}
+                    {selectedUserType === 'USER' ? (
+                        <div className="form-group mb-3">
+                            <label htmlFor="studentIdTextField">Student ID *</label>
+                            <input type="text" className="form-control"
+                                id="studentIdTextField"
+                                placeholder="Enter your student ID"
+                                name="studentId"
+                                value={user.studentId || ''}
+                                onChange={handleChange}
+                                required />
+                        </div>
+                    ) : (
+                        <div className="form-group mb-3">
+                            <label htmlFor="departmentTextField">Department *</label>
+                            <select className="form-control"
+                                id="departmentTextField"
+                                name="department"
+                                value={user.department || ''}
+                                onChange={handleChange}
+                                required>
+                                <option value="">Select Department</option>
+                                <option value="IT">Information Technology</option>
+                                <option value="HR">Human Resources</option>
+                                <option value="ADMIN">Administration</option>
+                                <option value="ACADEMICS">Academic Affairs</option>
+                                <option value="FACILITIES">Facilities Management</option>
+                                <option value="FINANCE">Finance</option>
+                                <option value="LIBRARY">Library Services</option>
+                                <option value="STUDENT_SERVICES">Student Services</option>
+                            </select>
+                        </div>
+                    )}
+                    <div className="form-group mb-3">
+                        <label>I am registering as:</label>
+                        <div className="row g-2 mt-1">
+                            <div className="col-6">
+                                <div className="card text-center" style={{ cursor: 'pointer', border: selectedUserType === 'USER' ? '2px solid #1a56db' : '1px solid #e5e7eb', borderRadius: 10 }}
+                                    onClick={() => { setSelectedUserType('USER'); setUser(prev => ({...prev, userType: 'USER'})); }}>
+                                    <div className="card-body py-3">
+                                        <i className="fas fa-user-graduate fa-2x mb-2 text-primary d-block"></i>
+                                        <strong style={{ fontSize: '0.88rem' }}>Student</strong>
                                     </div>
                                 </div>
-                                <div className="col-md-6">
-                                    <div className="card" style={{ cursor: 'pointer', border: selectedUserType === 'ADMIN' ? '2px solid #007bff' : '1px solid #dee2e6' }}>
-                                        <div className="card-body text-center" onClick={() => { setSelectedUserType('ADMIN'); setUser(prev => ({...prev, userType: 'ADMIN'})); }}>
-                                            <input type="radio" name="userType" value="ADMIN" onChange={handleChange} checked={selectedUserType === 'ADMIN'} />
-                                            <i className="fas fa-user-tie fa-2x d-block mt-2 mb-2 text-success"></i>
-                                            <h5>Staff/Admin</h5>
-                                            <p className="small text-muted">Manage tickets and provide support</p>
-                                        </div>
+                            </div>
+                            <div className="col-6">
+                                <div className="card text-center" style={{ cursor: 'pointer', border: selectedUserType === 'ADMIN' ? '2px solid #1a56db' : '1px solid #e5e7eb', borderRadius: 10 }}
+                                    onClick={() => { setSelectedUserType('ADMIN'); setUser(prev => ({...prev, userType: 'ADMIN'})); }}>
+                                    <div className="card-body py-3">
+                                        <i className="fas fa-user-tie fa-2x mb-2 text-success d-block"></i>
+                                        <strong style={{ fontSize: '0.88rem' }}>Staff / Admin</strong>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        &nbsp;
-                        <button className="btn btn-primary" type="submit">
-                            <i className="fas fa-edit"></i>
-                            Register
-                        </button>
-                        &nbsp; &nbsp;
-                        <Link href="#" to="/users/signin" className="btn btn-warning">
-                            <i className="fas fa-undo"></i>
-                            Return to Sign-In
-                        </Link>
-
-                    </form>
-                </div>
-
+                    </div>
+                    <button className="btn btn-primary w-100 mt-2" type="submit">
+                        <i className="fas fa-user-plus me-2"></i>Create Account
+                    </button>
+                    <p className="text-center mt-3 mb-0" style={{ fontSize: '0.85rem', color: '#6b7280' }}>
+                        Already have an account?{' '}
+                        <Link to="/users/signin" className="hd-auth-link">Sign in</Link>
+                    </p>
+                </form>
             </div>
         </div>
     );

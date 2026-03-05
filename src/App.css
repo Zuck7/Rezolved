@@ -353,10 +353,9 @@
 }
 .hd-nav-brand:hover { color: #93c5fd; text-decoration: none; }
 .hd-nav-logo {
-  height: 28px;
+  height: 64px;
   width: auto;
   object-fit: contain;
-  filter: brightness(0) invert(1);
 }
 
 /* Vertical divider */
@@ -522,5 +521,212 @@
   .hd-nav-right { display: none; }
   .hd-nav-divider { display: none; }
   .hd-nav-toggler { display: block; }
+}
+
+/* ── Inner page shared styles ──────────────────────────────── */
+
+/* Auth pages — centered card layout */
+.hd-auth-page {
+  min-height: 100vh;
+  background: #f7f8fa;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+.hd-auth-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+}
+.hd-auth-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+.hd-auth-sub {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1.75rem;
+}
+.hd-auth-link {
+  font-size: 0.85rem;
+  color: #1a56db;
+  text-decoration: none;
+}
+.hd-auth-link:hover { text-decoration: underline; }
+
+/* Inner page (dashboard, tickets) */
+.hd-inner-page {
+  min-height: 100vh;
+  background: #f7f8fa;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  padding: 2rem 1.5rem 4rem;
+}
+.hd-inner-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Page header */
+.hd-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+.hd-page-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.2rem;
+}
+.hd-page-sub {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Override Bootstrap cards inside inner pages to match design */
+.hd-inner-page .card,
+.hd-auth-card .card {
+  border: 1px solid #e5e7eb !important;
+  border-radius: 12px !important;
+  box-shadow: none;
+}
+.hd-inner-page .card-header,
+.hd-auth-card .card-header {
+  background: #f9fafb !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  border-radius: 12px 12px 0 0 !important;
+  padding: 0.85rem 1.25rem !important;
+  font-weight: 600;
+  color: #111827;
+  font-size: 0.9rem;
+}
+.hd-inner-page .card-body {
+  padding: 1.25rem;
+}
+.hd-inner-page .card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+/* Form controls */
+.hd-inner-page .form-control,
+.hd-inner-page .form-select,
+.hd-auth-card .form-control,
+.hd-auth-card .form-select {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #111827;
+  padding: 0.5rem 0.85rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.hd-inner-page .form-control:focus,
+.hd-inner-page .form-select:focus,
+.hd-auth-card .form-control:focus,
+.hd-auth-card .form-select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+  outline: none;
+}
+.hd-inner-page label,
+.hd-auth-card label {
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.3rem;
+}
+
+/* Buttons inside inner pages */
+.hd-inner-page .btn-primary,
+.hd-auth-card .btn-primary {
+  background: #1a56db;
+  border-color: #1a56db;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.hd-inner-page .btn-primary:hover,
+.hd-auth-card .btn-primary:hover {
+  background: #1648c0;
+  border-color: #1648c0;
+}
+.hd-inner-page .btn-outline-secondary,
+.hd-inner-page .btn-outline-primary,
+.hd-inner-page .btn-outline-warning,
+.hd-inner-page .btn-outline-danger,
+.hd-inner-page .btn-outline-info {
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+.hd-inner-page .btn-warning,
+.hd-auth-card .btn-warning {
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+/* Table */
+.hd-inner-page .table {
+  font-size: 0.875rem;
+  color: #111827;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.hd-inner-page .table thead th {
+  background: #f1f4f9 !important;
+  color: #374151 !important;
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e5e7eb !important;
+  padding: 0.75rem 1rem;
+}
+.hd-inner-page .table tbody tr {
+  transition: background 0.12s;
+}
+.hd-inner-page .table tbody tr:hover {
+  background: #f7f8fb;
+}
+.hd-inner-page .table tbody td {
+  border-bottom: 1px solid #f0f1f3;
+  vertical-align: middle;
+  padding: 0.7rem 1rem;
+}
+.hd-inner-page .table-responsive {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Alerts */
+.hd-inner-page .alert,
+.hd-auth-card .alert {
+  border-radius: 10px;
+  font-size: 0.88rem;
+}
+
+/* Spinner */
+.hd-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+  gap: 0.75rem;
 }
 

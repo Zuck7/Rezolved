@@ -27,7 +27,7 @@ function Home(){
             <section className="hd-hero">
                 <div className="hd-hero-inner">
                     <div className="hd-hero-badge">IT Support Portal</div>
-                    <h1 className="hd-hero-title">Help Desk System</h1>
+                    <h1 className="hd-hero-title">Rezolved</h1>
                     <p className="hd-hero-sub">Fast, simple ticket management for college IT support.</p>
                     {!isLoggedIn ? (
                         <div className="hd-hero-actions">

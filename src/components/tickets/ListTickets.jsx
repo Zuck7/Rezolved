@@ -75,11 +75,12 @@ const ListTickets = () => {
 
     return (
         <>
-            <div className="container" style={{ paddingTop: 10 }}>
-                <div className="d-flex justify-content-between align-items-center mb-3">
+            <div className="hd-inner-page">
+                <div className="hd-inner-content">
+                <div className="hd-page-header">
                     <div>
-                        <h2>Help Desk Dashboard</h2>
-                        <p className="text-muted">Manage and track your support tickets</p>
+                        <h2 className="hd-page-title">Rezolved Dashboard</h2>
+                        <p className="hd-page-sub">Manage and track your support tickets</p>
                     </div>
                     <div>
                         <button
@@ -126,6 +127,7 @@ const ListTickets = () => {
                                 )}
                             </tbody>
                         </table>}
+                </div>
                 </div>
             </div>
         </>

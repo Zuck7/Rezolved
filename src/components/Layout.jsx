@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import image_logo from "../assets/logo.png"
+import image_logo from "../assets/rezolved.png"
 import { isAuthenticated, getEmail, getUserInfo, clearJWT } from './auth/auth-helper';
 
 function Layout() {
@@ -14,8 +14,7 @@ function Layout() {
 
                 {/* Brand */}
                 <Link className="hd-nav-brand" to="/">
-                    <img src={image_logo} alt="Logo" className="hd-nav-logo" />
-                    <span>Help Desk</span>
+                    <img src={image_logo} alt="Rezolved" className="hd-nav-logo" />
                 </Link>
 
                 <div className="hd-nav-divider"></div>

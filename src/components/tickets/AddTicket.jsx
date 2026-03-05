@@ -66,11 +66,11 @@ const AddTicket = () => {
     }, []);
 
     return (
-        <div className="container" style={{ paddingTop: 10 }}>
-            <div className="row">
-                <div className="offset-md-2 col-md-8">
-                    <h1>Create New Support Ticket</h1>
-                    <p className="text-muted">Please provide details about your issue or request</p>
+        <div className="hd-inner-page">
+            <div className="hd-inner-content">
+                <div style={{ maxWidth: 700, margin: '0 auto' }}>
+                    <h1 className="hd-page-title">Create New Ticket</h1>
+                    <p className="hd-page-sub mb-3">Please provide details about your issue or request</p>
                     {errorMsg && (
                         <div className="alert alert-danger" role="alert">
                             {errorMsg}

@@ -127,12 +127,12 @@ const ManageTicket = () => {
 
     if (loading) {
         return (
-            <div className="container mt-4">
-                <div className="text-center">
-                    <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
+            <div className="hd-inner-page">
+                <div className="hd-inner-content">
+                    <div className="hd-spinner">
+                        <div className="spinner-border text-primary" role="status"><span className="visually-hidden">Loading...</span></div>
+                        <span>Loading ticket details...</span>
                     </div>
-                    <p>Loading ticket details...</p>
                 </div>
             </div>
         );
@@ -140,13 +140,13 @@ const ManageTicket = () => {
 
     if (error && !ticket) {
         return (
-            <div className="container mt-4">
-                <div className="alert alert-danger" role="alert">
-                    {error}
+            <div className="hd-inner-page">
+                <div className="hd-inner-content">
+                    <div className="alert alert-danger" role="alert">{error}</div>
+                    <button className="btn btn-outline-secondary" onClick={() => navigate('/tickets')}>
+                        <i className="fas fa-arrow-left me-2"></i>Back to Dashboard
+                    </button>
                 </div>
-                <button className="btn btn-secondary" onClick={() => navigate('/tickets')}>
-                    Back to Dashboard
-                </button>
             </div>
         );
     }
@@ -154,15 +154,16 @@ const ManageTicket = () => {
     const canModify = ticket?.status !== 'CLOSED' && ticket?.status !== 'CANCELLED';
 
     return (
-        <div className="container mt-4">
+        <div className="hd-inner-page">
+            <div className="hd-inner-content">
             {/* Header */}
-            <div className="d-flex justify-content-between align-items-center mb-4">
+            <div className="hd-page-header">
                 <div>
-                    <h2>Manage Ticket: {ticket?.ticketNumber || `TKT-${ticket?._id?.slice(-6)}`}</h2>
-                    <p className="text-muted">Admin ticket management interface</p>
+                    <h2 className="hd-page-title">Manage Ticket: {ticket?.ticketNumber || `TKT-${ticket?._id?.slice(-6)}`}</h2>
+                    <p className="hd-page-sub">Admin ticket management interface</p>
                 </div>
-                <button className="btn btn-outline-secondary" onClick={() => navigate('/tickets')}>
-                    <i className="fas fa-arrow-left"></i> Back to Dashboard
+                <button className="btn btn-outline-secondary btn-sm" onClick={() => navigate('/tickets')}>
+                    <i className="fas fa-arrow-left me-2"></i>Back to Dashboard
                 </button>
             </div>
 
@@ -374,6 +375,7 @@ const ManageTicket = () => {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     );

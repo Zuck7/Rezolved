@@ -38,50 +38,40 @@ const Signin = () => {
     }
 
     return (
-        <div className="container" style={{ paddingTop: 10 }}>
-            <div className="row">
-                <div className="offset-md-3 col-md-6">
-                    <h1>Sign In to Help Desk System</h1>
-                    <p className="flash"><span>{errorMsg}</span></p>
-                    <form onSubmit={handleSubmit} className="form card p-3">
-                        <div className="form-group">
-                            <label htmlFor="emailTextField">Email</label>
-                            <input type="text" className="form-control"
-                                id="emailTextField"
-                                placeholder="Enter your email"
-                                name="email"
-                                value={user.email || ''}
-                                onChange={handleChange}
-                                required>
-                            </input>
-                        </div>
-                        <br />
-                        <div className="form-group">
-                            <label htmlFor="passowordTextField">Password</label>
-                            <input type="password" className="form-control"
-                                id="passowordTextField"
-                                placeholder=""
-                                name="password"
-                                value={user.password || ''}
-                                onChange={handleChange}
-                                required>
-                            </input>
-                        </div>
-                        <br />
-                        &nbsp;
-                        <button className="btn btn-primary" type="submit">
-                            <i className="fas fa-edit"></i>
-                            Submit
-                            Login
-                        </button>
-                        &nbsp;
-                        <Link to="/users/signup" style={{ textDecoration: 'none' }}>
-                            <i className="fas fa-user-plus"></i> Sign-up
-                        </Link>
-
-                    </form>
-                </div>
-
+        <div className="hd-auth-page">
+            <div className="hd-auth-card">
+                <h2 className="hd-auth-title">Welcome back</h2>
+                <p className="hd-auth-sub">Sign in to your Rezolved account</p>
+                {errorMsg && <div className="alert alert-danger py-2">{errorMsg}</div>}
+                <form onSubmit={handleSubmit}>
+                    <div className="form-group mb-3">
+                        <label htmlFor="emailTextField">Email</label>
+                        <input type="text" className="form-control"
+                            id="emailTextField"
+                            placeholder="Enter your email"
+                            name="email"
+                            value={user.email || ''}
+                            onChange={handleChange}
+                            required />
+                    </div>
+                    <div className="form-group mb-3">
+                        <label htmlFor="passowordTextField">Password</label>
+                        <input type="password" className="form-control"
+                            id="passowordTextField"
+                            placeholder="Enter your password"
+                            name="password"
+                            value={user.password || ''}
+                            onChange={handleChange}
+                            required />
+                    </div>
+                    <button className="btn btn-primary w-100 mt-2" type="submit">
+                        <i className="fas fa-sign-in-alt me-2"></i>Sign In
+                    </button>
+                    <p className="text-center mt-3 mb-0" style={{ fontSize: '0.85rem', color: '#6b7280' }}>
+                        Don't have an account?{' '}
+                        <Link to="/users/signup" className="hd-auth-link">Register here</Link>
+                    </p>
+                </form>
             </div>
         </div>
     );

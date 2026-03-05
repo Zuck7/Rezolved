@@ -76,10 +76,10 @@ const EditTicket = () => {
 
 
     return (
-        <div className="container" style={{ paddingTop: 10 }}>
-            <div className="row">
-                <div className="offset-md-3 col-md-6">
-                    <h1>Edit Ticket Item</h1>
+        <div className="hd-inner-page">
+            <div className="hd-inner-content">
+                <div style={{ maxWidth: 700, margin: '0 auto' }}>
+                    <h1 className="hd-page-title">Edit Ticket</h1>
                     {ticket.status === 'CANCELLED' || ticket.status === 'CLOSED' ? (
                         <div className="alert alert-warning">
                             <i className="fas fa-exclamation-triangle"></i> This ticket has been {ticket.status}. It cannot be edited.
