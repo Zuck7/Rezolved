@@ -13,7 +13,7 @@ import PrivateRoute from "./components/auth/PrivateRoute";
 
 function MainRouter() {
     return (
-        <div>
+        <div style={{ width: '100%', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             {/* Layout wraps all pages */}
             <Layout />
 

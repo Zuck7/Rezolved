@@ -15,223 +15,152 @@ function Home(){
     }, []);
 
     return(
-        <div className="container mt-5">
-            {/* Hero Section */}
-            <div className="jumbotron bg-primary bg-gradient text-white p-5 rounded mb-5">
-                <div className="row">
-                    <div className="col-md-8">
-                        <h1 className="display-4">Help Desk System</h1>
-                        <p className="lead">
-                            College IT Support & Issue Management Platform
-                        </p>
-                        <p>
-                            Submit tickets for computer issues, software problems, network connectivity,
-                            and other technical support needs. Our team is here to help!
-                        </p>
-                        {!isLoggedIn ? (
-                            <div className="mt-4">
-                                <Link to="/users/signin" className="btn btn-light btn-lg me-3">
-                                    <i className="fas fa-sign-in-alt"></i> Sign In
-                                </Link>
-                                <Link to="/users/signup" className="btn btn-outline-light btn-lg">
-                                    <i className="fas fa-user-plus"></i> Register
-                                </Link>
-                            </div>
-                        ) : (
-                            <div className="mt-4">
-                                <Link to="/tickets" className="btn btn-light btn-lg me-3">
-                                    <i className="fas fa-ticket-alt"></i> My Tickets
-                                </Link>
-                                <Link to="/tickets/add" className="btn btn-outline-light btn-lg">
-                                    <i className="fas fa-plus"></i> Submit New Ticket
-                                </Link>
-                            </div>
-                        )}
-                    </div>
-                    <div className="col-md-4 text-center">
-                        <i className="fas fa-headset fa-5x mb-3"></i>
-                        <h3>24/7 Support</h3>
-                        <p>We're here to help with all your technical needs</p>
-                    </div>
-                </div>
+        <div className="hd-page">
+
+            {/* Outage Banner */}
+            <div className="hd-banner">
+                <i className="fas fa-exclamation-circle me-2"></i>
+                <span><strong>Service Outage:</strong> MongoDB is currently down due to an AWS server issue in Bahrain. The app is unavailable — please try again later.</span>
             </div>
 
-            {isLoggedIn && currentUser ? (
-                // Dashboard for logged-in users
-                <div>
-                    <div className="row mb-4">
-                        <div className="col-12">
-                            <h2>Welcome back, {currentUser.getFullName?.() || currentUser.email}!</h2>
-                            <div className="row">
-                                <div className="col-md-8">
-                                    <p className="text-muted mb-1">
-                                        {currentUser.isAdmin?.() ?
-                                            "Admin Dashboard - Manage and track all support tickets" :
-                                            "Student Portal - View your tickets and submit new requests"
-                                        }
-                                    </p>
+            {/* Hero */}
+            <section className="hd-hero">
+                <div className="hd-hero-inner">
+                    <div className="hd-hero-badge">IT Support Portal</div>
+                    <h1 className="hd-hero-title">Help Desk System</h1>
+                    <p className="hd-hero-sub">Fast, simple ticket management for college IT support.</p>
+                    {!isLoggedIn ? (
+                        <div className="hd-hero-actions">
+                            <Link to="/users/signin" className="hd-btn hd-btn-primary">
+                                <i className="fas fa-sign-in-alt me-2"></i>Sign In
+                            </Link>
+                            <Link to="/users/signup" className="hd-btn hd-btn-outline">
+                                <i className="fas fa-user-plus me-2"></i>Register
+                            </Link>
+                        </div>
+                    ) : (
+                        <div className="hd-hero-actions">
+                            <Link to="/tickets" className="hd-btn hd-btn-primary">
+                                <i className="fas fa-ticket-alt me-2"></i>My Tickets
+                            </Link>
+                            <Link to="/tickets/add" className="hd-btn hd-btn-outline">
+                                <i className="fas fa-plus me-2"></i>New Ticket
+                            </Link>
+                        </div>
+                    )}
+                </div>
+            </section>
+
+            {/* Main Content */}
+            <div className="hd-content">
+
+                {isLoggedIn && currentUser ? (
+                    <>
+                        {/* Welcome */}
+                        <div className="hd-welcome">
+                            <div>
+                                <h2 className="hd-welcome-title">
+                                    Welcome back, {currentUser.getFullName?.() || currentUser.email}
+                                </h2>
+                                <p className="hd-welcome-sub">
+                                    {currentUser.isAdmin?.()
+                                        ? 'Admin Dashboard — manage and track all support tickets.'
+                                        : 'Student Portal — view and manage your support requests.'}
                                     {currentUser.userType === 'USER' && currentUser.studentId && (
-                                        <p className="text-muted small">
-                                            <i className="fas fa-id-card"></i> Student ID: {currentUser.studentId}
-                                        </p>
+                                        <span className="hd-meta"><i className="fas fa-id-card me-1"></i>ID: {currentUser.studentId}</span>
                                     )}
                                     {currentUser.userType === 'ADMIN' && (
-                                        <p className="text-muted small">
-                                            <i className="fas fa-building"></i> {currentUser.department} Department
-                                        </p>
+                                        <span className="hd-meta"><i className="fas fa-building me-1"></i>{currentUser.department}</span>
                                     )}
-                                </div>
-                                <div className="col-md-4 text-end">
-                                    <span className={`badge ${currentUser.isAdmin?.() ? 'bg-success' : 'bg-primary'} fs-6`}>
-                                        <i className={`fas ${currentUser.isAdmin?.() ? 'fa-user-tie' : 'fa-user-graduate'}`}></i>
-                                        {currentUser.isAdmin?.() ? ' Staff Member' : ' Student'}
-                                    </span>
-                                </div>
+                                </p>
                             </div>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col-md-4">
-                            <div className="card text-center h-100">
-                                <div className="card-body">
-                                    <i className="fas fa-ticket-alt fa-3x text-primary mb-3"></i>
-                                    <h5 className="card-title">View Tickets</h5>
-                                    <p className="card-text">
-                                        {currentUser.isAdmin?.() ?
-                                            "View and manage all support tickets in the system" :
-                                            "Check the status of your submitted tickets"
-                                        }
-                                    </p>
-                                    <Link to="/tickets" className="btn btn-primary">
-                                        <i className="fas fa-list"></i> View Tickets
-                                    </Link>
-                                </div>
-                            </div>
+                            <span className={`hd-role-badge ${currentUser.isAdmin?.() ? 'hd-role-admin' : 'hd-role-user'}`}>
+                                <i className={`fas ${currentUser.isAdmin?.() ? 'fa-user-tie' : 'fa-user-graduate'} me-1`}></i>
+                                {currentUser.isAdmin?.() ? 'Staff' : 'Student'}
+                            </span>
                         </div>
 
-                        <div className="col-md-4">
-                            <div className="card text-center h-100">
-                                <div className="card-body">
-                                    <i className="fas fa-plus-circle fa-3x text-success mb-3"></i>
-                                    <h5 className="card-title">Submit Ticket</h5>
-                                    <p className="card-text">
-                                        Report new issues or request technical assistance from our support team
-                                    </p>
-                                    <Link to="/tickets/add" className="btn btn-success">
-                                        <i className="fas fa-plus"></i> Create Ticket
-                                    </Link>
+                        {/* Action Cards */}
+                        <div className="hd-cards">
+                            <div className="hd-card">
+                                <div className="hd-card-icon hd-icon-blue">
+                                    <i className="fas fa-list-ul"></i>
                                 </div>
+                                <h5 className="hd-card-title">View Tickets</h5>
+                                <p className="hd-card-text">
+                                    {currentUser.isAdmin?.()
+                                        ? 'Review and manage all support tickets.'
+                                        : 'Track the status of your open requests.'}
+                                </p>
+                                <Link to="/tickets" className="hd-btn hd-btn-primary hd-btn-sm">Open</Link>
+                            </div>
+
+                            <div className="hd-card">
+                                <div className="hd-card-icon hd-icon-green">
+                                    <i className="fas fa-plus"></i>
+                                </div>
+                                <h5 className="hd-card-title">Submit Ticket</h5>
+                                <p className="hd-card-text">Report a new issue or request technical assistance.</p>
+                                <Link to="/tickets/add" className="hd-btn hd-btn-success hd-btn-sm">Create</Link>
+                            </div>
+
+                            <div className="hd-card hd-card-disabled">
+                                <div className="hd-card-icon hd-icon-gray">
+                                    <i className="fas fa-cog"></i>
+                                </div>
+                                <h5 className="hd-card-title">Settings</h5>
+                                <p className="hd-card-text">Manage your profile and account preferences.</p>
+                                <span className="hd-badge-soon">Coming Soon</span>
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        {/* Feature Overview */}
+                        <div className="hd-section-label">What we handle</div>
+                        <div className="hd-cards">
+                            <div className="hd-card">
+                                <div className="hd-card-icon hd-icon-blue">
+                                    <i className="fas fa-laptop"></i>
+                                </div>
+                                <h5 className="hd-card-title">Computer Issues</h5>
+                                <p className="hd-card-text">Hardware failures, software installs, and performance problems.</p>
+                            </div>
+                            <div className="hd-card">
+                                <div className="hd-card-icon hd-icon-teal">
+                                    <i className="fas fa-wifi"></i>
+                                </div>
+                                <h5 className="hd-card-title">Network & Connectivity</h5>
+                                <p className="hd-card-text">Wi-Fi issues, internet access, and VPN problems.</p>
+                            </div>
+                            <div className="hd-card">
+                                <div className="hd-card-icon hd-icon-green">
+                                    <i className="fas fa-shield-alt"></i>
+                                </div>
+                                <h5 className="hd-card-title">Account & Security</h5>
+                                <p className="hd-card-text">Password resets, account access, and security concerns.</p>
                             </div>
                         </div>
 
-                        <div className="col-md-4">
-                            <div className="card text-center h-100">
-                                <div className="card-body">
-                                    <i className="fas fa-user fa-3x text-warning mb-3"></i>
-                                    <h5 className="card-title">Profile</h5>
-                                    <p className="card-text">
-                                        Update your profile information and account settings
-                                    </p>
-                                    <button className="btn btn-warning" disabled>
-                                        <i className="fas fa-cog"></i> Settings (Coming Soon)
-                                    </button>
+                        {/* How it Works */}
+                        <div className="hd-section-label" style={{ marginTop: '3rem' }}>How it works</div>
+                        <div className="hd-steps">
+                            {[['Register', 'Create an account with your college email.', 'fa-user-plus'],
+                              ['Submit', 'Describe your issue clearly.', 'fa-paper-plane'],
+                              ['Track', 'Monitor your ticket in real-time.', 'fa-chart-line'],
+                              ['Resolved', 'Our team fixes your issue promptly.', 'fa-check-circle']
+                            ].map(([title, desc, icon], i) => (
+                                <div className="hd-step" key={i}>
+                                    <div className="hd-step-num">{i + 1}</div>
+                                    <i className={`fas ${icon} hd-step-icon`}></i>
+                                    <h6 className="hd-step-title">{title}</h6>
+                                    <p className="hd-step-desc">{desc}</p>
                                 </div>
-                            </div>
+                            ))}
                         </div>
-                    </div>
-                </div>
-            ) : (
-                // Public information for non-logged-in users
-                <div>
-                    <div className="row">
-                        <div className="col-md-4">
-                            <div className="card text-center mb-4">
-                                <div className="card-body">
-                                    <i className="fas fa-laptop fa-3x text-primary mb-3"></i>
-                                    <h5 className="card-title">Computer Issues</h5>
-                                    <p className="card-text">
-                                        Hardware problems, software installation, performance issues
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="card text-center mb-4">
-                                <div className="card-body">
-                                    <i className="fas fa-wifi fa-3x text-info mb-3"></i>
-                                    <h5 className="card-title">Network Connectivity</h5>
-                                    <p className="card-text">
-                                        Wi-Fi issues, internet connection problems, access troubles
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="card text-center mb-4">
-                                <div className="card-body">
-                                    <i className="fas fa-shield-alt fa-3x text-success mb-3"></i>
-                                    <h5 className="card-title">Account & Security</h5>
-                                    <p className="card-text">
-                                        Password resets, account access, security concerns
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="text-center mt-5">
-                        <h3>How It Works</h3>
-                        <div className="row mt-4">
-                            <div className="col-md-3">
-                                <div className="step-item">
-                                    <div className="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">1</div>
-                                    <h5>Register</h5>
-                                    <p>Create an account with your college email</p>
-                                </div>
-                            </div>
-                            <div className="col-md-3">
-                                <div className="step-item">
-                                    <div className="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">2</div>
-                                    <h5>Submit Ticket</h5>
-                                    <p>Describe your issue in detail</p>
-                                </div>
-                            </div>
-                            <div className="col-md-3">
-                                <div className="step-item">
-                                    <div className="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">3</div>
-                                    <h5>Track Progress</h5>
-                                    <p>Monitor your ticket status in real-time</p>
-                                </div>
-                            </div>
-                            <div className="col-md-3">
-                                <div className="step-item">
-                                    <div className="step-number bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3">4</div>
-                                    <h5>Get Resolved</h5>
-                                    <p>Our team will fix your issue promptly</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            <style jsx>{`
-                .step-number {
-                    width: 50px;
-                    height: 50px;
-                    font-size: 1.2rem;
-                    font-weight: bold;
-                }
-                .jumbotron {
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                }
-                .card:hover {
-                    transform: translateY(-5px);
-                    transition: all 0.3s ease;
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-                }
-            `}</style>
+                    </>
+                )}
+            </div>
         </div>
     );
 }

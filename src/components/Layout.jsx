@@ -4,79 +4,79 @@ import { isAuthenticated, getEmail, getUserInfo, clearJWT } from './auth/auth-he
 
 function Layout() {
 
-    const location = useLocation();
-
     const signoutClick = () => {
         clearJWT();
     }
 
     return (
-        <>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div className="container">
-                    <Link className="navbar-brand d-flex align-items-center" to="/">
-                        <img src={image_logo} alt="Logo" className='logo me-2' height="40" />
-                        <span>Help Desk System</span>
-                    </Link>
+        <nav className="hd-nav">
+            <div className="hd-nav-inner">
 
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
+                {/* Brand */}
+                <Link className="hd-nav-brand" to="/">
+                    <img src={image_logo} alt="Logo" className="hd-nav-logo" />
+                    <span>Help Desk</span>
+                </Link>
 
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav me-auto">
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/">
-                                    <i className="fas fa-home"></i> Home
-                                </Link>
-                            </li>
-                            {isAuthenticated() && (
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/tickets">
-                                        <i className="fas fa-ticket-alt"></i> Dashboard
-                                    </Link>
-                                </li>
-                            )}
-                            {isAuthenticated() && (
-                                <li className="nav-item">
-                                    <Link className="nav-link" to="/tickets/add">
-                                        <i className="fas fa-plus"></i> New Ticket
-                                    </Link>
-                                </li>
-                            )}
-                        </ul>
+                <div className="hd-nav-divider"></div>
 
-                        <ul className="navbar-nav">
-                            {!isAuthenticated() ? (
-                                <>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/users/signin">
-                                            <i className="fas fa-sign-in-alt"></i> Sign In
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/users/signup">
-                                            <i className="fas fa-user-plus"></i> Register
-                                        </Link>
-                                    </li>
-                                </>
-                            ) : (
-                                <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                        <i className="fas fa-user"></i> {getUserInfo()?.firstName ? `${getUserInfo().firstName} ${getUserInfo().lastName}` : getEmail()}
-                                    </a>
-                                    <ul className="dropdown-menu">
-                                        <li><Link className="dropdown-item" to="/tickets"><i className="fas fa-ticket-alt"></i> My Tickets</Link></li>
-                                        <li><hr className="dropdown-divider" /></li>
-                                        <li><Link className="dropdown-item" to="/" onClick={signoutClick}><i className="fas fa-sign-out-alt"></i> Sign Out</Link></li>
-                                    </ul>
-                                </li>
-                            )}
-                        </ul>
-                    </div>
+                {/* Primary links */}
+                <ul className="hd-nav-links">
+                    <li><Link className="hd-nav-link" to="/">Home</Link></li>
+                    {isAuthenticated() && (
+                        <li><Link className="hd-nav-link" to="/tickets">Dashboard</Link></li>
+                    )}
+                    {isAuthenticated() && (
+                        <li><Link className="hd-nav-link" to="/tickets/add">New Ticket</Link></li>
+                    )}
+                </ul>
+
+                {/* Right side */}
+                <div className="hd-nav-right">
+                    {!isAuthenticated() ? (
+                        <>
+                            <Link className="hd-nav-link" to="/users/signin">Sign In</Link>
+                            <Link className="hd-nav-cta" to="/users/signup">Get Started</Link>
+                        </>
+                    ) : (
+                        <div className="hd-nav-user">
+                            <button className="hd-nav-user-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i className="fas fa-user-circle me-2"></i>
+                                {getUserInfo()?.firstName ? `${getUserInfo().firstName} ${getUserInfo().lastName}` : getEmail()}
+                                <i className="fas fa-chevron-down ms-2" style={{ fontSize: '0.7rem' }}></i>
+                            </button>
+                            <ul className="dropdown-menu dropdown-menu-end hd-dropdown">
+                                <li><Link className="dropdown-item" to="/tickets"><i className="fas fa-ticket-alt me-2"></i>My Tickets</Link></li>
+                                <li><hr className="dropdown-divider" /></li>
+                                <li><Link className="dropdown-item text-danger" to="/" onClick={signoutClick}><i className="fas fa-sign-out-alt me-2"></i>Sign Out</Link></li>
+                            </ul>
+                        </div>
+                    )}
                 </div>
-            </nav>
-        </>
+
+                {/* Mobile toggler */}
+                <button className="hd-nav-toggler" data-bs-toggle="collapse" data-bs-target="#hdNavMobile">
+                    <i className="fas fa-bars"></i>
+                </button>
+            </div>
+
+            {/* Mobile menu */}
+            <div className="collapse" id="hdNavMobile">
+                <div className="hd-nav-mobile">
+                    <Link className="hd-nav-mobile-link" to="/">Home</Link>
+                    {isAuthenticated() && <Link className="hd-nav-mobile-link" to="/tickets">Dashboard</Link>}
+                    {isAuthenticated() && <Link className="hd-nav-mobile-link" to="/tickets/add">New Ticket</Link>}
+                    {!isAuthenticated() ? (
+                        <>
+                            <Link className="hd-nav-mobile-link" to="/users/signin">Sign In</Link>
+                            <Link className="hd-nav-mobile-link hd-nav-mobile-cta" to="/users/signup">Get Started</Link>
+                        </>
+                    ) : (
+                        <Link className="hd-nav-mobile-link text-danger" to="/" onClick={signoutClick}>Sign Out</Link>
+                    )}
+                </div>
+            </div>
+        </nav>
     );
 }
 
