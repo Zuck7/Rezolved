@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import image_logo from "../assets/rezolved.png"
 import { isAuthenticated, getEmail, getUserInfo, getToken, clearJWT } from './auth/auth-helper';
@@ -5,11 +6,13 @@ import { signout } from '../datasource/api-user';
 
 function Layout() {
     const navigate = useNavigate();
+    const [authKey, setAuthKey] = useState(0);
 
     const signoutClick = async () => {
         const token = getToken();
         await signout(token);
         clearJWT();
+        setAuthKey(k => k + 1); // force re-render to clear user info from nav
         navigate('/');
     }
 

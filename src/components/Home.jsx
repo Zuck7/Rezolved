@@ -1,18 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { isAuthenticated } from './auth/auth-helper';
 
 function Home(){
-    const [currentUser, setCurrentUser] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const auth = isAuthenticated();
-        if (auth) {
-            setCurrentUser(auth.user);
-            setIsLoggedIn(true);
-        }
-    }, []);
+    useLocation(); // subscribe to route changes so we re-render after logout navigation
+    const auth = isAuthenticated();
+    const currentUser = auth ? auth.user : null;
+    const isLoggedIn = !!auth;
 
     return(
         <div className="hd-page">
