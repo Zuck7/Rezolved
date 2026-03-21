@@ -17,12 +17,6 @@ function Home(){
     return(
         <div className="hd-page">
 
-            {/* Outage Banner */}
-            <div className="hd-banner">
-                <i className="fas fa-exclamation-circle me-2"></i>
-                <span><strong>Service Outage:</strong> MongoDB is currently down due to an AWS server issue in Bahrain. The app is unavailable — please try again later.</span>
-            </div>
-
             {/* Hero */}
             <section className="hd-hero">
                 <div className="hd-hero-inner">

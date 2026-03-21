@@ -53,4 +53,19 @@ const create = async (user) => {
     }
 }
 
-export { signin, create }
+const signout = async (token) => {
+    try {
+        await fetch(apiURL + '/api/auth/signout', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            }
+        })
+    } catch (err) {
+        console.log('Signout API error:', err)
+    }
+}
+
+export { signin, create, signout }

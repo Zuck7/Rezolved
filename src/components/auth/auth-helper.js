@@ -13,6 +13,7 @@ const authenticate = (token, cb) => {
   cb();
 }
 
+
 const isAuthenticated = () => {
   if (typeof window === "undefined") {
     return false;
@@ -30,6 +31,8 @@ const isAuthenticated = () => {
     return false;
   }
 }
+
+
 
 const getToken = () => {
   if (typeof window === "undefined") {

@@ -1,11 +1,16 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import image_logo from "../assets/rezolved.png"
-import { isAuthenticated, getEmail, getUserInfo, clearJWT } from './auth/auth-helper';
+import { isAuthenticated, getEmail, getUserInfo, getToken, clearJWT } from './auth/auth-helper';
+import { signout } from '../datasource/api-user';
 
 function Layout() {
+    const navigate = useNavigate();
 
-    const signoutClick = () => {
+    const signoutClick = async () => {
+        const token = getToken();
+        await signout(token);
         clearJWT();
+        navigate('/');
     }
 
     return (
@@ -47,7 +52,7 @@ function Layout() {
                             <ul className="dropdown-menu dropdown-menu-end hd-dropdown">
                                 <li><Link className="dropdown-item" to="/tickets"><i className="fas fa-ticket-alt me-2"></i>My Tickets</Link></li>
                                 <li><hr className="dropdown-divider" /></li>
-                                <li><Link className="dropdown-item text-danger" to="/" onClick={signoutClick}><i className="fas fa-sign-out-alt me-2"></i>Sign Out</Link></li>
+                                <li><a className="dropdown-item text-danger" role="button" onClick={signoutClick}><i className="fas fa-sign-out-alt me-2"></i>Sign Out</a></li>
                             </ul>
                         </div>
                     )}
@@ -71,7 +76,7 @@ function Layout() {
                             <Link className="hd-nav-mobile-link hd-nav-mobile-cta" to="/users/signup">Get Started</Link>
                         </>
                     ) : (
-                        <Link className="hd-nav-mobile-link text-danger" to="/" onClick={signoutClick}>Sign Out</Link>
+                        <a className="hd-nav-mobile-link text-danger" role="button" onClick={signoutClick}>Sign Out</a>
                     )}
                 </div>
             </div>
