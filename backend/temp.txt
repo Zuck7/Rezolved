@@ -1,0 +1,3 @@
+MongoDB Password: f5tEe98wdHxZDSNY
+
+Connection to your application: mongodb+srv://admin_db_user:f5tEe98wdHxZDSNY@cluster003.5tnqo7i.mongodb.net/
