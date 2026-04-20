@@ -2,9 +2,16 @@ let apiURL = import.meta.env.VITE_APP_APIURL
 
 // api-user.js
 
+const parseJsonSafe = async (response) => {
+    try {
+        return await response.json();
+    } catch (err) {
+        return null;
+    }
+}
+
 const signin = async (user) => {
     try {
-        // FIX: Changed '/auth/signin' to '/api/auth/signin'
         let response = await fetch(apiURL + '/api/auth/signin', {
             method: 'POST',
             headers: {
@@ -13,10 +20,13 @@ const signin = async (user) => {
             },
             body: JSON.stringify(user)
         })
-        
-        // FIX: Check for success before parsing JSON to prevent crashes
+
         if (!response.ok) {
-            return { success: false, message: `Server Error: ${response.status}` };
+            const errorData = await parseJsonSafe(response);
+            return {
+                success: false,
+                message: errorData?.message || `Server Error: ${response.status}`
+            };
         }
 
         return await response.json()
@@ -55,7 +65,7 @@ const create = async (user) => {
 
 const signout = async (token) => {
     try {
-        await fetch(apiURL + '/api/auth/signout', {
+        await fetch(apiURL + '/api/auth/logout', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
