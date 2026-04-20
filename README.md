@@ -4,11 +4,11 @@ Frontend for the Rezolved support ticket system.
 
 ## Admin Page Guide
 
-This guide explains how the admin-facing pages work, based on the screenshots in src/assets.
+This guide explains how the admin-facing pages work, based on the screenshots in client/src/assets.
 
 ### 1. Admin Home and Quick Actions
 
-![Admin Home](src/assets/admin_page.png)
+![Admin Home](client/src/assets/admin_page.png)
 
 What this page is:
 - The authenticated landing page for staff/admin users.
@@ -25,7 +25,7 @@ How it works:
 
 ### 2. Ticket Dashboard (Admin Queue)
 
-![Ticket Dashboard](src/assets/ticket_dashboard.png)
+![Ticket Dashboard](client/src/assets/ticket_dashboard.png)
 
 What this page is:
 - The main operations table for reviewing and tracking tickets.
@@ -45,7 +45,7 @@ Role behavior:
 
 ### 3. Create New Ticket Form
 
-![Create Ticket](src/assets/create_ticket.png)
+![Create Ticket](client/src/assets/create_ticket.png)
 
 What this page is:
 - A structured form to submit a new support request.
@@ -62,7 +62,7 @@ Validation notes:
 
 ### 4. User Dropdown and Sign Out
 
-![User Menu](src/assets/signout.png)
+![User Menu](client/src/assets/signout.png)
 
 What this area is:
 - The authenticated account menu in the top-right navbar.
@@ -88,15 +88,17 @@ Access control summary:
 
 ### Install
 
-Run inside client:
+Run from the project root:
 
 ```bash
+cd client
 npm install
 ```
 
 ### Start
 
 ```bash
+cd client
 npm run dev
 ```
 
